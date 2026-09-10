@@ -1,0 +1,241 @@
+{
+  "common": {
+    "brand": "DemiZ",
+    "tagline": "爱，是世界上最伟大的魔法。",
+    "searchPlaceholder": "搜索 DemiZ…",
+    "themeLight": "切换到浅色主题",
+    "themeDark": "切换到深色主题",
+    "skipToContent": "跳到正文"
+  },
+  "nav": {
+    "home": "首页",
+    "blog": "魔法笔记",
+    "collection": "宝物柜",
+    "life": "日常手账",
+    "archives": "归档",
+    "about": "关于",
+    "guestbook": "留言板",
+    "footer": "页脚导航",
+    "main": "主导航"
+  },
+  "header": {
+    "search": "搜索",
+    "searchAria": "站内搜索",
+    "searchClose": "关闭搜索",
+    "language": "切换语言"
+  },
+  "music": {
+    "title": "音乐播放器",
+    "play": "播放",
+    "pause": "暂停",
+    "next": "下一曲",
+    "prev": "上一曲",
+    "volume": "音量",
+    "emptyHint": "暂无音乐"
+  },
+  "footer": {
+    "privacy": "隐私说明",
+    "tags": "Tags",
+    "rss": "RSS",
+    "copyright": "© {year} {name}"
+  },
+  "home": {
+    "symbolLoopAria": "魔法符号循环展示",
+    "intro": "我是 <highlight>{name}</highlight> , Nice to meet you ! 0v0\n从Hello World开始，开启探索世界的旅程。",
+    "readBlog": "翻开魔法笔记",
+    "featured": "Featured",
+    "featuredTitle": "精选文章",
+    "featuredLabel": "精选 · ",
+    "recentTitle": "最近更新"
+  },
+  "search": {
+    "title": "站内搜索",
+    "eyebrow": "Search",
+    "label": "搜索标题、摘要、分类、标签或正文",
+    "placeholder": "例如：Astro、WSL2、生活",
+    "clear": "清空",
+    "hint": "输入关键词开始搜索。",
+    "found": "找到 {count} 条结果。",
+    "noResult": "没有找到匹配内容，试试更短的关键词或标签。",
+    "loading": "正在加载搜索索引…",
+    "loadError": "搜索索引暂时无法加载。",
+    "retry": "重试加载",
+    "resultsAria": "搜索结果",
+    "techArticle": "技术文章",
+    "lifeLog": "生活日志",
+    "emptySuggestions": "可以换个方式继续找：",
+    "emptyShorter": "缩短关键词，只保留最重要的词",
+    "emptySpelling": "检查拼写，或改用中文／英文近义词",
+    "emptyTopics": "尝试分类或标签，例如 AI、Web、生活",
+    "keyboardHint": "可使用上、下方向键浏览结果，按 Enter 打开，按 Esc 返回搜索框。"
+  },
+  "blog": {
+    "title": "魔法笔记",
+    "description": "DemiZ 的技术博客：AI Infra、Web、工程实践与开发环境的学习记录。",
+    "viewArchive": "查看 Archive",
+    "explore": "探索领域",
+    "recent": "最新笔记",
+    "searchLink": "搜索所有笔记",
+    "featuredBadge": "✦ 精选",
+    "backToNotes": "返回魔法笔记",
+    "categoryAria": "{name} · {zh}，共 {count} 篇笔记",
+    "categoryCount": "{count} 篇"
+  },
+  "life": {
+    "title": "日常手账",
+    "backToJournal": "返回日常手账"
+  },
+  "collection": {
+    "title": "宝物柜",
+    "heroDesc": "我收藏和喜欢的东西：软件、书、动画、网站、设备。与「我做的」工作台分开。",
+    "empty": "宝物柜正在整理中。\n喜欢的东西，值得认真收藏。"
+  },
+  "archives": {
+    "title": "库洛牌全书",
+    "description": "按时间整理的 {count} 条公开记录。",
+    "read": "已读"
+  },
+  "tags": {
+    "title": "卡牌标签",
+    "eyebrow": "Card Index",
+    "heroDesc": "从关键词重新发现笔记与日常。",
+    "tagTitle": "标签：{tag}"
+  },
+  "about": {
+    "title": "关于我",
+    "eyebrow": "Ordinary Magic Learner",
+    "intro": "你好，我是 {name}。像练习魔法一样持续学习代码，也认真收藏普通生活里的小事。",
+    "whatTitle": "这里记录什么",
+    "whatDesc": "这里用于整理新技术、工程实践和偶尔捣乱的 bug，也保存技术之外的日常记录。",
+    "contact": "联系",
+    "guestbook": "魔法许愿簿",
+    "avatarAlt": "DemiZ 的头像"
+  },
+  "guestbook": {
+    "title": "魔法许愿簿",
+    "eyebrow": "Magic Wish Book",
+    "intro": "欢迎写下一句寄语、建议或简单问候。你的留言会显示为一条气泡，点开可以继续讨论。",
+    "noteLabel": "留言提示",
+    "note": "请勿公开邮箱、电话等个人信息。留言内容会公开展示，站长可管理或删除不合适的内容。",
+    "noJs": "留言区需要启用 JavaScript 才能加载。",
+    "loading": "留言区正在加载…",
+    "empty": "还没有留言，来写下第一条吧。",
+    "notConfigured": "留言区尚未配置，请联系站长。",
+    "loadError": "留言区暂时无法加载，点击重试。",
+    "retry": "重试",
+    "nicknamePlaceholder": "你的昵称",
+    "contentPlaceholder": "写下想说的话…",
+    "send": "发送",
+    "sendFailed": "发送失败，请重试。",
+    "like": "点赞",
+    "delete": "删除",
+    "pin": "置顶",
+    "unpin": "取消置顶",
+    "pinned": "已置顶",
+    "deleteConfirm": "确定删除这条留言？",
+    "thread": "讨论",
+    "replies": "回复",
+    "replyPlaceholder": "回复这条留言…",
+    "backToGuestbook": "← 返回留言板",
+    "rootMessage": "原留言",
+    "notFoundMessage": "这条留言不存在或已被删除。"
+  },
+  "workshop": {
+    "title": "工作台",
+    "eyebrow": "Workshop",
+    "heroDesc": "一些因为自己想用，所以顺手做出来的东西。不是简历项目页，是我的实验室。",
+    "projectDesc": "一个为了自己写 Markdown 做出来的小型写作环境，文章和图片一起提交，构建通过后自动发布。",
+    "open": "Open ↗",
+    "comingSoon": "Coming soon",
+    "projectsAria": "项目列表"
+  },
+  "privacy": {
+    "title": "隐私说明",
+    "updated": "最后更新：{date}",
+    "statsTitle": "访问统计",
+    "stats1": "本站仅在正式部署、且完成统计配置时加载 Umami。统计用于了解页面整体使用情况，不用于建立跨站个人画像。",
+    "stats2": "浏览器开启 Do Not Track 或 Global Privacy Control 时，本站不会请求统计脚本。统计功能不可用也不会影响内容访问。",
+    "commentsTitle": "访客留言",
+    "comments": "留言区由 Giscus 和 GitHub Discussions 提供。打开留言页时，浏览器会连接 Giscus；发布留言需要登录 GitHub，留言及账号信息按照 GitHub 的规则公开展示和处理。请勿在公开留言中提交邮箱、电话等敏感个人信息。",
+    "scopeTitle": "数据范围",
+    "scope": "访问统计可能处理页面访问量、来源页面、浏览器和设备类型以及国家或地区级别的粗略位置。本站不主动收集精确位置，也不使用统计 Cookie 或 localStorage 保存统计身份。",
+    "hostingTitle": "第三方托管",
+    "hosting": "网站由 Vercel 托管，其基础设施可能按照自身政策处理提供服务所需的网络日志。留言由 GitHub Discussions 保存，Giscus 负责在本站加载和发布这些内容。",
+    "contactTitle": "联系",
+    "contact": "如有隐私问题，请联系 <email>{address}</email>。"
+  },
+  "notFound": {
+    "title": "找不到这张库洛牌",
+    "desc": "请求的页面不存在",
+    "eyebrow": "404 · Lost Card",
+    "message": "这张魔法卡牌可能藏起来了，返回首页重新寻找吧。",
+    "back": "返回魔法资料库"
+  },
+  "like": {
+    "loading": "正在读取点赞数…",
+    "total": "累计 {count} 次点赞",
+    "unavailable": "暂时无法读取，点击可重试",
+    "liking": "正在点赞…",
+    "retrying": "正在重试…",
+    "failed": "点赞失败，仍为 {count} 次",
+    "failedRetry": "点赞失败，请重试",
+    "ariaTotal": "为主页点赞，当前累计 {count} 次",
+    "ariaLoading": "为主页点赞，正在读取累计点赞数"
+  },
+  "view": {
+    "ariaLabel": "当前日期与时间"
+  },
+  "companion": {
+    "aria": "木之本樱换装展示",
+    "cycle": "切换魔法伙伴服装",
+    "alt": "原创魔法伙伴换装展示",
+    "hint": "点击更换服装"
+  },
+  "copyEmail": {
+    "label": "邮箱",
+    "hint": "点击复制邮箱",
+    "copied": "已复制邮箱",
+    "copiedStatus": "{email} 已复制到剪贴板",
+    "failed": "复制失败，请手动选择邮箱地址"
+  },
+  "reader": {
+    "toolsAria": "阅读工具",
+    "tocAria": "文章目录",
+    "toc": "目录",
+    "actionsAria": "文章操作",
+    "like": "点赞",
+    "liked": "已点赞",
+    "markRead": "标为已读",
+    "read": "已读",
+    "readAnnounce": "已将这篇文章标记为已读",
+    "unreadAnnounce": "已取消已读标记",
+    "thanks": "谢谢你的喜欢",
+    "unliked": "已取消点赞",
+    "topAria": "回到文章开头",
+    "top": "回到开头"
+  },
+  "magic": {
+    "seal": "封印魔法特效",
+    "unseal": "解除封印并开启魔法特效",
+    "sealTitle": "点击封印全部魔法特效",
+    "unsealTitle": "点击解除封印并开启魔法特效",
+    "copy": "复制代码",
+    "copied": "已收进卡牌",
+    "copyFailed": "复制失败"
+  },
+  "article": {
+    "navAria": "文章导航",
+    "prevLabel": "← 上一篇",
+    "nextLabel": "下一篇 →",
+    "min": "分钟",
+    "updated": "更新于"
+  },
+  "ending": {
+    "aria": "文章结尾",
+    "title": "收录完成",
+    "e1": "这篇笔记暂时写到这里。如果以后理解改变，我还会回来修改它。",
+    "e2": "先记到这里，等踩到坑或者想得更清楚，再回来补。",
+    "e3": "写这篇时的理解是这样，以后可能会变。",
+    "e4": "这篇还没有真正写完，但先收进魔法库，日后继续。"
+  }
+}

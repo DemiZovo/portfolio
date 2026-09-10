@@ -1,0 +1,241 @@
+{
+  "common": {
+    "brand": "DemiZ",
+    "tagline": "Love is the greatest magic in the world.",
+    "searchPlaceholder": "Search DemiZ…",
+    "themeLight": "Switch to light theme",
+    "themeDark": "Switch to dark theme",
+    "skipToContent": "Skip to content"
+  },
+  "nav": {
+    "home": "Home",
+    "blog": "Notes",
+    "collection": "Collection",
+    "life": "Journal",
+    "archives": "Archive",
+    "about": "About",
+    "guestbook": "Guestbook",
+    "footer": "Footer navigation",
+    "main": "Main navigation"
+  },
+  "header": {
+    "search": "Search",
+    "searchAria": "Site search",
+    "searchClose": "Close search",
+    "language": "Switch language"
+  },
+  "music": {
+    "title": "Music player",
+    "play": "Play",
+    "pause": "Pause",
+    "next": "Next track",
+    "prev": "Previous track",
+    "volume": "Volume",
+    "emptyHint": "No music yet"
+  },
+  "footer": {
+    "privacy": "Privacy",
+    "tags": "Tags",
+    "rss": "RSS",
+    "copyright": "© {year} {name}"
+  },
+  "home": {
+    "symbolLoopAria": "Magic symbols loop",
+    "intro": "I'm <highlight>{name}</highlight>, nice to meet you! 0v0\nStarting from Hello World, exploring the world.",
+    "readBlog": "Open the notes",
+    "featured": "Featured",
+    "featuredTitle": "Featured",
+    "featuredLabel": "Featured · ",
+    "recentTitle": "Recent updates"
+  },
+  "search": {
+    "title": "Search",
+    "eyebrow": "Search",
+    "label": "Search titles, summaries, categories, tags or body",
+    "placeholder": "e.g. Astro, WSL2, life",
+    "clear": "Clear",
+    "hint": "Type a keyword to search.",
+    "found": "{count} results found.",
+    "noResult": "No matches. Try a shorter keyword or a tag.",
+    "loading": "Loading search index…",
+    "loadError": "Search index could not be loaded.",
+    "retry": "Retry",
+    "resultsAria": "Search results",
+    "techArticle": "Tech article",
+    "lifeLog": "Life log",
+    "emptySuggestions": "Try another way to search:",
+    "emptyShorter": "Use fewer words and keep the most important term",
+    "emptySpelling": "Check the spelling or try a related term",
+    "emptyTopics": "Try a category or tag such as AI, Web, or life",
+    "keyboardHint": "Use the Up and Down arrow keys to browse results, Enter to open, and Escape to return to search."
+  },
+  "blog": {
+    "title": "Notes",
+    "description": "DemiZ's tech blog: learning notes on AI Infra, Web, engineering practice and dev environments.",
+    "viewArchive": "View Archive",
+    "explore": "Explore",
+    "recent": "Latest notes",
+    "searchLink": "Search all notes",
+    "featuredBadge": "✦ Featured",
+    "backToNotes": "Back to Notes",
+    "categoryAria": "{name} · {zh}, {count, plural, one {# note} other {# notes}}",
+    "categoryCount": "{count, plural, one {# note} other {# notes}}"
+  },
+  "life": {
+    "title": "Journal",
+    "backToJournal": "Back to Journal"
+  },
+  "collection": {
+    "title": "Collection",
+    "heroDesc": "Things I collect and love: software, books, anime, websites, devices. Separated from the workshop (what I make).",
+    "empty": "The collection is being organized.\nThings worth loving deserve careful keeping."
+  },
+  "archives": {
+    "title": "The Card Book",
+    "description": "{count} public notes, arranged by time.",
+    "read": "Read"
+  },
+  "tags": {
+    "title": "Card Index",
+    "eyebrow": "Card Index",
+    "heroDesc": "Rediscover notes and daily life through keywords.",
+    "tagTitle": "Tag: {tag}"
+  },
+  "about": {
+    "title": "About",
+    "eyebrow": "Ordinary Magic Learner",
+    "intro": "Hi, I'm {name}. I keep learning to code like practicing magic, and carefully collect the small things in ordinary life.",
+    "whatTitle": "What's recorded here",
+    "whatDesc": "A place for new tech, engineering practice and the occasional bug that acts up — plus daily records beyond tech.",
+    "contact": "Contact",
+    "guestbook": "Magic Wish Book",
+    "avatarAlt": "DemiZ's avatar"
+  },
+  "guestbook": {
+    "title": "Magic Wish Book",
+    "eyebrow": "Magic Wish Book",
+    "intro": "Leave a note, a suggestion, or a simple greeting. Your message shows as a bubble; click it to keep the conversation going.",
+    "noteLabel": "Message note",
+    "note": "Please don't share personal info like emails or phone numbers publicly. Messages are shown publicly, and the site owner can manage or remove inappropriate content.",
+    "noJs": "The guestbook needs JavaScript to load.",
+    "loading": "Loading the guestbook…",
+    "empty": "No messages yet. Be the first to leave one.",
+    "notConfigured": "The guestbook isn't configured yet. Contact the site owner.",
+    "loadError": "Couldn't load the guestbook. Click to retry.",
+    "retry": "Retry",
+    "nicknamePlaceholder": "Your nickname",
+    "contentPlaceholder": "Write something…",
+    "send": "Send",
+    "sendFailed": "Send failed, please retry.",
+    "like": "Like",
+    "delete": "Delete",
+    "pin": "Pin",
+    "unpin": "Unpin",
+    "pinned": "Pinned",
+    "deleteConfirm": "Delete this message?",
+    "thread": "Discussion",
+    "replies": "Replies",
+    "replyPlaceholder": "Reply to this message…",
+    "backToGuestbook": "← Back to guestbook",
+    "rootMessage": "Original message",
+    "notFoundMessage": "This message doesn't exist or was deleted."
+  },
+  "workshop": {
+    "title": "Workshop",
+    "eyebrow": "Workshop",
+    "heroDesc": "A few things I built because I wanted to use them myself. Not a résumé page — it's my lab.",
+    "projectDesc": "A small writing environment for authoring Markdown: articles and images are committed together and auto-published once the build passes.",
+    "open": "Open ↗",
+    "comingSoon": "Coming soon",
+    "projectsAria": "Project list"
+  },
+  "privacy": {
+    "title": "Privacy",
+    "updated": "Last updated: {date}",
+    "statsTitle": "Traffic analytics",
+    "stats1": "This site loads Umami only when deployed and analytics are configured. Analytics measure overall page usage and are not used to build cross-site profiles.",
+    "stats2": "When the browser sends Do Not Track or Global Privacy Control, this site won't request the analytics script. Analytics being unavailable never blocks content access.",
+    "commentsTitle": "Visitor messages",
+    "comments": "The guestbook is provided by Giscus and GitHub Discussions. Opening the guestbook connects to Giscus; publishing requires a GitHub login. Messages and account info are displayed and handled per GitHub's rules. Please don't submit sensitive personal info like emails or phone numbers.",
+    "scopeTitle": "Data scope",
+    "scope": "Analytics may process page views, referrers, browser and device types, and coarse country/region location. This site doesn't actively collect precise location and doesn't use analytics cookies or localStorage to store an analytics identity.",
+    "hostingTitle": "Third-party hosting",
+    "hosting": "The site is hosted on Vercel, whose infrastructure may process network logs needed to serve requests under its own policy. Messages are stored by GitHub Discussions, and Giscus loads and publishes them here.",
+    "contactTitle": "Contact",
+    "contact": "For privacy questions, contact <email>{address}</email>."
+  },
+  "notFound": {
+    "title": "Lost Card Not Found",
+    "desc": "The requested page does not exist",
+    "eyebrow": "404 · Lost Card",
+    "message": "This magic card may be hidden away. Head back to the home page and look again.",
+    "back": "Back to the library"
+  },
+  "like": {
+    "loading": "Loading likes…",
+    "total": "{count} total likes",
+    "unavailable": "Couldn't load — click to retry",
+    "liking": "Liking…",
+    "retrying": "Retrying…",
+    "failed": "Like failed, still {count}",
+    "failedRetry": "Like failed, please retry",
+    "ariaTotal": "Like the homepage, currently {count} likes",
+    "ariaLoading": "Like the homepage, loading total likes"
+  },
+  "view": {
+    "ariaLabel": "Current date and time"
+  },
+  "companion": {
+    "aria": "Sakura's outfit showcase",
+    "cycle": "Change the companion's outfit",
+    "alt": "Original magic companion outfit showcase",
+    "hint": "Click to change outfit"
+  },
+  "copyEmail": {
+    "label": "Email",
+    "hint": "Click to copy email",
+    "copied": "Email copied",
+    "copiedStatus": "{email} copied to clipboard",
+    "failed": "Copy failed, please select the email manually"
+  },
+  "reader": {
+    "toolsAria": "Reading tools",
+    "tocAria": "Table of contents",
+    "toc": "Contents",
+    "actionsAria": "Article actions",
+    "like": "Like",
+    "liked": "Liked",
+    "markRead": "Mark as read",
+    "read": "Read",
+    "readAnnounce": "Marked this article as read",
+    "unreadAnnounce": "Removed the read mark",
+    "thanks": "Thanks for the like",
+    "unliked": "Like removed",
+    "topAria": "Back to top of article",
+    "top": "Back to top"
+  },
+  "magic": {
+    "seal": "Seal the magic effects",
+    "unseal": "Unseal and enable the magic effects",
+    "sealTitle": "Click to seal all magic effects",
+    "unsealTitle": "Click to unseal and enable the magic effects",
+    "copy": "Copy code",
+    "copied": "Filed into a card",
+    "copyFailed": "Copy failed"
+  },
+  "article": {
+    "navAria": "Article navigation",
+    "prevLabel": "← Previous",
+    "nextLabel": "Next →",
+    "min": "min read",
+    "updated": "Updated"
+  },
+  "ending": {
+    "aria": "Article ending",
+    "title": "Filed away",
+    "e1": "This note ends here for now. If my understanding changes, I'll come back and revise it.",
+    "e2": "Stopping here for now — I'll return to fill it in after hitting a pitfall or thinking it through.",
+    "e3": "This is my understanding as I wrote it. It may change later.",
+    "e4": "This one isn't fully written yet, but I'll file it into the magic library and keep going later."
+  }
+}

@@ -1,0 +1,198 @@
+/* ---- 浏览器工具栏式 Header ---- */
+/* 覆盖 .site-header 的网格与装饰，必须在 layout import 最末尾以覆盖 sakura-theme。 */
+
+/* ---- 浏览器工具栏式 Header ---- */
+/* 覆盖 .site-header 的网格与装饰，必须在 layout import 最末尾以覆盖 sakura-theme。 */
+
+/* Sticky wrapper；最终材质、边框和阴影由 foundations.css 统一。 */
+.browser-bar-glow{
+  position:sticky;
+  top:.75rem;
+  z-index:var(--z-navbar);
+  /* 留出空间给外发光，避免被页面裁掉 */
+  padding:.4rem;
+}
+.browser-bar-glow__content{
+  min-width:0;
+}
+/* 内容层承接浏览器栏自身的网格布局与尺寸 */
+.browser-bar-glow__content .browser-bar{
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr) auto;
+  align-items:center;
+  gap:clamp(.5rem,1.5vw,1.25rem);
+  height:3.75rem;
+  padding:.4rem .9rem;
+  min-width:0;
+}
+.browser-bar-glow__content .browser-bar::before,
+.browser-bar-glow__content .browser-bar::after{display:none}
+
+/* 正文避让 sticky 工具栏：top(0.75rem) + 栏高(3.75rem)，避免初始重叠。 */
+.site-main{margin-top:calc(.75rem + 3.75rem)}
+
+.browser-bar__brand{
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  font-size:1.15rem;
+  font-weight:800;
+  color:var(--accent);
+  text-decoration:none;
+  white-space:nowrap;
+}
+.browser-bar__brand img,.browser-bar__brand svg{width:1.6rem;height:1.6rem;flex:0 0 auto}
+
+.browser-bar__search{
+  display:flex;
+  align-items:center;
+  gap:.35rem;
+  min-width:0;
+  height:2.6rem;
+  padding:0 .85rem;
+  border:1px solid var(--border);
+  border-radius:var(--radius-pill);
+  background:var(--surface);
+  transition:border-color var(--duration-fast) ease;
+}
+.browser-bar__search:focus-within{border-color:var(--accent)}
+.browser-bar__search svg{width:1.1rem;height:1.1rem;flex:0 0 auto;color:var(--muted);stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.browser-bar__search input{
+  flex:1;
+  min-width:0;
+  border:0;
+  background:transparent;
+  color:var(--text);
+  font:inherit;
+  font-size:.95rem;
+  outline:none;
+}
+/* 隐藏浏览器原生 search 清除按钮，统一用自定义 × */
+.browser-bar__search input::-webkit-search-cancel-button,
+.browser-bar__search input::-webkit-search-decoration{-webkit-appearance:none;appearance:none}
+.browser-bar__search input::-ms-clear{display:none}
+.browser-bar__search input::placeholder{color:var(--muted)}
+.browser-bar__search .browser-bar__clear{
+  display:grid;
+  place-items:center;
+  width:1.4rem;height:1.4rem;
+  border:0;border-radius:50%;
+  background:color-mix(in srgb,var(--muted) 18%,transparent);
+  color:var(--muted);
+  font-size:.7rem;
+  cursor:pointer;
+}
+.browser-bar__search .browser-bar__clear[hidden]{display:none}
+
+.browser-bar__actions{
+  display:flex;
+  align-items:center;
+  gap:.25rem;
+  min-width:0;
+}
+.browser-bar__actions .tool-button{
+  min-width:2.4rem;
+  min-height:2.4rem;
+  padding:.45rem;
+  border-radius:var(--radius-pill);
+}
+
+/* 语言切换按钮 */
+.lang-button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:.3rem;
+  min-width:2.4rem;
+  min-height:2.4rem;
+  padding:0 .7rem;
+  border:0;
+  border-radius:var(--radius-pill);
+  background:transparent;
+  color:var(--muted);
+  font:inherit;
+  font-size:.78rem;
+  font-weight:650;
+  cursor:pointer;
+  text-decoration:none;
+}
+.lang-button:hover{color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent)}
+.lang-button svg{width:1.15rem;height:1.15rem;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* 音乐播放器 */
+.music-player{position:relative}
+.music-player__panel{
+  position:absolute;
+  top:calc(100% + .65rem);
+  right:0;
+  z-index:var(--z-popover);
+  display:grid;
+  gap:.6rem;
+  width:min(16rem,calc(100vw - 2rem));
+  padding:.85rem;
+  border:1px solid var(--border-strong);
+  border-radius:var(--radius-md);
+  background:var(--surface);
+  box-shadow:var(--shadow-floating);
+  backdrop-filter:blur(18px);
+}
+.music-player__nowplaying{
+  min-width:0;
+  overflow:hidden;
+  color:var(--text);
+  font-size:.9rem;
+  font-weight:600;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.music-player__progress{
+  position:relative;
+  height:.28rem;
+  border-radius:999px;
+  background:color-mix(in srgb,var(--muted) 22%,transparent);
+  cursor:pointer;
+}
+.music-player__progress span{
+  position:absolute;left:0;top:0;bottom:0;
+  border-radius:inherit;
+  background:var(--accent);
+  pointer-events:none;
+}
+.music-player__controls{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:.45rem;
+}
+.music-player__controls button{
+  display:grid;place-items:center;
+  width:2.4rem;height:2.4rem;
+  border:1px solid var(--border);
+  border-radius:50%;
+  background:var(--surface-soft);
+  color:var(--text);
+  cursor:pointer;
+}
+.music-player__controls button:hover{border-color:var(--accent);color:var(--accent)}
+.music-player__controls button:disabled{opacity:var(--control-opacity-disabled);cursor:not-allowed}
+.music-player__controls button svg{width:1.05rem;height:1.05rem;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.music-player__controls .music-player__play{background:var(--accent);border-color:var(--accent);color:#fff}
+.music-player__controls .music-player__play svg{fill:currentColor;stroke:none}
+.music-player__volume{
+  display:flex;align-items:center;gap:.4rem;
+  color:var(--muted);font-size:.78rem;
+}
+.music-player__volume input[type="range"]{flex:1;accent-color:var(--accent)}
+
+@media (max-width:1024px){
+  .browser-bar-glow__content .browser-bar{grid-template-columns:auto 1fr auto}
+}
+@media (max-width:760px){
+  .browser-bar-glow__content .browser-bar{height:auto;grid-template-columns:auto 1fr auto;flex-wrap:wrap}
+  .browser-bar-glow__content .browser-bar__search{grid-column:1/-1;grid-row:2;order:3}
+  .lang-button span{display:none}
+  .lang-button{min-width:2.4rem;padding:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .browser-bar{transition:none}
+}

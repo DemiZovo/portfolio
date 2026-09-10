@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">DemiZ</title><desc id="desc">DemiZ 的代码学习与生活记录</desc>
+  <rect width="1200" height="630" fill="#f8f2ef"/>
+  <path d="M600 0v630" stroke="#b18a4c" stroke-opacity=".12"/>
+  <rect x="72" y="62" width="1056" height="506" rx="18" fill="#fffdf9" stroke="#d2b5b5" stroke-width="3"/>
+  <rect x="88" y="78" width="1024" height="474" rx="11" fill="none" stroke="#b18a4c" stroke-opacity=".55" stroke-width="2"/>
+  <rect x="140" y="128" width="126" height="156" rx="12" fill="#fdf6f3" stroke="#762c43" stroke-width="3"/>
+  <rect x="150" y="138" width="106" height="136" rx="7" fill="none" stroke="#b18a4c" stroke-width="2"/>
+  <path d="M177 167h24c20 0 34 12 34 39s-14 39-34 39h-24v-78Zm23 61c12 0 19-7 19-22s-7-22-19-22h-7v44h7Z" fill="#a33f5c"/>
+  <path d="m250 140 3.2 10.8L264 154l-10.8 3.2L250 168l-3.2-10.8L236 154l10.8-3.2L250 140Z" fill="#b18a4c"/>
+  <text x="140" y="394" font-family="Georgia, Noto Serif SC, serif" font-size="92" font-weight="700" fill="#352b2f">DemiZ</text>
+  <text x="145" y="460" font-family="Noto Sans SC, sans-serif" font-size="34" fill="#76676c">代码学习 · 生活记录</text>
+  <path d="m1008 152 8 27 27 8-27 8-8 27-8-27-27-8 27-8 8-27Z" fill="#b18a4c" opacity=".8"/>
+  <path d="M898 438c42-65 72-103 94-116 24-14 44 5 25 29-17 21-42 54-76 101" fill="none" stroke="#e6a3b4" stroke-width="13" stroke-linecap="round" opacity=".7"/>
+</svg>
