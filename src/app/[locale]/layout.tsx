@@ -19,6 +19,7 @@ import MagicScrollEffects from '@/components/MagicScrollEffects';
 import ReadMarkers from '@/components/ReadMarkers';
 import BodySection from '@/components/BodySection';
 import Analytics from '@/components/Analytics';
+import PerformanceInsights from '@/components/PerformanceInsights';
 import JsonLd from '@/components/JsonLd';
 import { siteConfig } from '@/config/site';
 import { siteUrl } from '@/lib/site';
@@ -103,6 +104,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
           <ReadMarkers />
         </NextIntlClientProvider>
         <Analytics />
+        {process.env.VERCEL === '1' && <PerformanceInsights />}
         <JsonLd type="website" />
       </body>
     </html>

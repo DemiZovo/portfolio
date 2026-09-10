@@ -153,6 +153,7 @@
     "title": "Privacy",
     "updated": "Last updated: {date}",
     "statsTitle": "Traffic analytics",
+    "performance": "Vercel deployments also integrate Speed Insights to measure page loading, interaction responsiveness, and layout stability. Its script is not loaded when Do Not Track or Global Privacy Control is enabled. Query parameters and fragments are removed from reported page URLs.",
     "stats1": "This site loads Umami only when deployed and analytics are configured. Analytics measure overall page usage and are not used to build cross-site profiles.",
     "stats2": "When the browser sends Do Not Track or Global Privacy Control, this site won't request the analytics script. Analytics being unavailable never blocks content access.",
     "commentsTitle": "Visitor messages",

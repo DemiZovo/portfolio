@@ -153,6 +153,7 @@
     "title": "隐私说明",
     "updated": "最后更新：{date}",
     "statsTitle": "访问统计",
+    "performance": "Vercel 部署还会接入 Speed Insights，用于衡量页面加载、交互响应和布局稳定性。浏览器开启 Do Not Track 或 Global Privacy Control 时不会加载该脚本；发送的页面地址会移除查询参数和片段。",
     "stats1": "本站仅在正式部署、且完成统计配置时加载 Umami。统计用于了解页面整体使用情况，不用于建立跨站个人画像。",
     "stats2": "浏览器开启 Do Not Track 或 Global Privacy Control 时，本站不会请求统计脚本。统计功能不可用也不会影响内容访问。",
     "commentsTitle": "访客留言",

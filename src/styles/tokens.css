@@ -1,0 +1,137 @@
+/* ============================================================================
+   DemiZ v2 · Design Tokens
+   全站唯一的变量来源。颜色/字体/间距/圆角/阴影/Glass/Motion/容器/Z-index
+   一律在这里定义，组件里禁止随手写死值。
+   ============================================================================ */
+
+:root {
+  color-scheme: light;
+
+  /* ---- 品牌色（sakura / magic gold 占比 5–10%，只用于指示与点缀） ---- */
+  --accent: #c85d7b;
+  --accent-soft: #ffb7c5;
+  --wine: #762c43;
+  --gold: #b18a4c;
+  --sky: #b8e4ff;
+  --sun: #fff3b0;
+
+  /* ---- 中性色（正文颜色永远不用纯黑） ---- */
+  --bg: #fffaf5;
+  --surface: #fffefb;
+  --surface-soft: #fff6f7;
+  --surface-raised: #fffefb;
+  --surface-control: rgba(255, 254, 251, 0.82);
+  --text: #352b2f;
+  --muted: #76676c;
+  --border: #e6d5d4;
+  --border-strong: #d2b5b5;
+  --code: #2b2226;
+
+  /* ---- 阴影：只有 soft / floating / modal 三档，多数内容不投阴影 ---- */
+  --shadow: 0.35rem 0.35rem 0.85rem rgba(92, 50, 60, 0.1), -0.32rem -0.32rem 0.75rem rgba(255, 255, 255, 0.84);
+  --shadow-floating: 0 0.75rem 1.5rem rgba(92, 50, 60, 0.12);
+  --shadow-modal: 0 1.5rem 3rem rgba(92, 50, 60, 0.18);
+  /* 兼容旧命名（.hero/.card/.article 等仍引用 --shadow-neumo*） */
+  --shadow-neumo: 0.75rem 0.75rem 1.65rem rgba(92, 50, 60, 0.15), -0.72rem -0.72rem 1.55rem rgba(255, 255, 255, 0.92);
+  --shadow-neumo-soft: 0.35rem 0.35rem 0.85rem rgba(92, 50, 60, 0.1), -0.32rem -0.32rem 0.75rem rgba(255, 255, 255, 0.84);
+  --shadow-neumo-inset: inset 0.25rem 0.25rem 0.55rem rgba(92, 50, 60, 0.12), inset -0.25rem -0.25rem 0.55rem rgba(255, 255, 255, 0.84);
+
+  /* ---- 字体：正文 Sans + 代码 Mono 两套；标题沿用衬线做品牌 ---- */
+  --font-sans: "Inter", "Noto Sans SC", "PingFang SC", "Microsoft YaHei UI", system-ui, sans-serif;
+  --font-serif: Georgia, "Noto Serif SC", "Songti SC", serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", "Cascadia Code", Consolas, monospace;
+
+  /* ---- Typography scale ---- */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: clamp(1.75rem, 3vw, 2.25rem);
+  --text-display: clamp(2.5rem, 7vw, 5rem);
+  --leading-tight: 1.12;
+  --leading-copy: 1.75;
+
+  /* ---- 间距 scale（只允许这些值） ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  /* ---- 圆角 scale ---- */
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-pill: 999px;
+
+  /* ---- 容器宽度 ---- */
+  --container-wide: 1280px;
+  --container-main: 1080px;
+  --container-narrow: 900px;
+  --container-reading: 720px;
+
+  /* ---- Motion：普通交互 140–360ms，魔法/卡牌 600–900ms ---- */
+  --duration-fast: 140ms;
+  --duration-normal: 220ms;
+  --duration-slow: 360ms;
+  --duration-magic: 700ms;
+  --duration-card: 820ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ---- Glass：只用于控制层 ---- */
+  --glass-bg: color-mix(in srgb, var(--surface) 78%, transparent);
+  --glass-blur: 18px;
+  --glass-border: color-mix(in srgb, var(--border-strong) 55%, transparent);
+  --focus-ring: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+
+  /* ---- Z-index ---- */
+  --z-content: 0;
+  --z-sticky: 10;
+  --z-navbar: 20;
+  --z-popover: 30;
+  --z-modal: 40;
+  --z-toast: 50;
+  --z-intro: 100;
+
+  /* ---- Shared control geometry ---- */
+  --control-sm: 36px;
+  --control-md: 44px;
+  --control-opacity-disabled: 0.48;
+  --navbar-offset: var(--space-3);
+}
+
+/* 深色：保留酒红 #211a1d 夜空底，暗色下魔法元素 glow 更明显 */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #211a1d;
+  --surface: #2b2226;
+  --surface-soft: #32262b;
+  --surface-raised: #2b2226;
+  --surface-control: rgba(43, 34, 38, 0.84);
+  --text: #f7eceb;
+  --muted: #cbb7bb;
+  --accent: #f0a2b5;
+  --accent-soft: #cf718a;
+  --wine: #f0a2b5;
+  --gold: #d6b77d;
+  --border: #4d393f;
+  --border-strong: #72505a;
+  --code: #171215;
+
+  --shadow: 0.35rem 0.35rem 0.85rem rgba(0, 0, 0, 0.28), -0.3rem -0.3rem 0.72rem rgba(77, 57, 63, 0.42);
+  --shadow-floating: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.35);
+  --shadow-modal: 0 1.5rem 3rem rgba(0, 0, 0, 0.42);
+  --shadow-neumo: 0.75rem 0.75rem 1.65rem rgba(0, 0, 0, 0.32), -0.65rem -0.65rem 1.35rem rgba(77, 57, 63, 0.52);
+  --shadow-neumo-soft: 0.35rem 0.35rem 0.85rem rgba(0, 0, 0, 0.28), -0.3rem -0.3rem 0.72rem rgba(77, 57, 63, 0.42);
+  --shadow-neumo-inset: inset 0.25rem 0.25rem 0.55rem rgba(0, 0, 0, 0.3), inset -0.22rem -0.22rem 0.5rem rgba(77, 57, 63, 0.4);
+}

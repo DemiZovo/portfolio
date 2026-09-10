@@ -19,10 +19,11 @@ export default async function PrivacyPage() {
   return (
     <article className="article">
       <h1>{t('title')}</h1>
-      <p className="meta">{t('updated', { date: '2026-08-14' })}</p>
+      <p className="meta">{t('updated', { date: '2026-09-10' })}</p>
       <h2>{t('statsTitle')}</h2>
       <p>{t('stats1')}</p>
       <p>{t('stats2')}</p>
+      <p>{t('performance')}</p>
       <h2>{t('commentsTitle')}</h2>
       <p>{t('comments')}</p>
       <h2>{t('scopeTitle')}</h2>

@@ -1,0 +1,41 @@
+{
+  "name": "demiz-web",
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "start": "next start",
+    "lint": "next lint",
+    "check": "tsc --noEmit",
+    "verify:site": "node scripts/verify-site.mjs"
+  },
+  "dependencies": {
+    "@vercel/speed-insights": "^2.0.0",
+    "gray-matter": "^4",
+    "next": "^15",
+    "next-intl": "^4.13.6",
+    "react": "^19",
+    "react-dom": "^19",
+    "rehype-highlight": "^7",
+    "rehype-slug": "^6",
+    "rehype-stringify": "^10",
+    "remark-gfm": "^4",
+    "remark-parse": "^11",
+    "remark-rehype": "^11",
+    "unified": "^11",
+    "unist-util-visit": "^5",
+    "zod": "^3"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "^15",
+    "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "packageManager": "pnpm@10.11.1"
+}
