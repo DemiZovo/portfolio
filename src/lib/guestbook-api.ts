@@ -4,7 +4,7 @@
  */
 
 const supabaseUrl = (process.env.NEXT_PUBLIC_SUPABASE_URL ?? '').replace(/\/$/, '');
-const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? '';
+const serviceKey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 const table = 'guestbook_messages';
 
 export interface GuestbookMessage {
@@ -42,7 +42,7 @@ export function isAdmin(ip: string): boolean {
 function authHeaders() {
   return {
     apikey: serviceKey,
-    Authorization: `Bearer ${serviceKey}`,
+    ...(serviceKey.startsWith('sb_secret_') ? {} : { Authorization: `Bearer ${serviceKey}` }),
     'Content-Type': 'application/json',
   };
 }
@@ -74,11 +74,12 @@ export async function insertMessage(nickname: string, content: string, ip: strin
   if (!serviceKey) return null;
   const res = await fetch(`${supabaseUrl}/rest/v1/${table}`, {
     method: 'POST',
-    headers: authHeaders(),
+    headers: { ...authHeaders(), Prefer: 'return=representation' },
     body: JSON.stringify({ nickname, content, ip, parent_id: parentId, likes: 0, pinned: false }),
   });
   if (!res.ok) throw new Error(`insert failed: ${res.status}`);
-  return res.json();
+  const rows: GuestbookMessage[] = await res.json();
+  return rows[0] ?? null;
 }
 
 export async function updateMessage(id: number, patch: Record<string, unknown>): Promise<boolean> {
