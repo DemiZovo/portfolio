@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
-import { Dancing_Script, Long_Cang } from 'next/font/google';
 import '@/styles/tokens.css';
 import '@/styles/global.css';
 import '@/styles/features.css';
@@ -35,12 +34,6 @@ const themeScript = `(() => { try {
   document.documentElement.style.colorScheme = theme;
   document.querySelector('meta[data-theme-color]')?.setAttribute('content', theme === 'dark' ? '#211a1d' : '#f8f2ef');
 } catch {} })();`;
-
-// 首页 intro 手写体：英文 Dancing Script 在前，中文 Long Cang 按字符回退。
-// next/font 必须在模块作用域调用。
-const introEn = Dancing_Script({ variable: '--intro-en', weight: ['400', '700'], display: 'swap', subsets: ['latin'] });
-const introZh = Long_Cang({ variable: '--intro-zh', weight: '400', display: 'swap', subsets: ['latin'] });
-const introFonts = `${introEn.variable} ${introZh.variable}`;
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -84,7 +77,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
   const t = await getTranslations({ locale, namespace: 'common' });
 
   return (
-    <html lang={locale} data-theme="light" suppressHydrationWarning className={introFonts}>
+    <html lang={locale} data-theme="light" suppressHydrationWarning>
       <head>
         <meta name="theme-color" content="#f8f2ef" data-theme-color />
       </head>

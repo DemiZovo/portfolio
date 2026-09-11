@@ -1,3 +1,4 @@
+import localFont from 'next/font/local';
 import { getLocale, getTranslations } from 'next-intl/server';
 import HomeLikeButton from '@/components/HomeLikeButton';
 import HomeStats from '@/components/HomeStats';
@@ -7,6 +8,13 @@ import { entryPath, getPublicContent } from '@/lib/content';
 import { entryDescription, entryTitle } from '@/lib/localize';
 import { siteConfig } from '@/config/site';
 import { Link } from '@/i18n/navigation';
+
+const introFont = localFont({
+  src: '../../assets/fonts/chill-round.woff2',
+  variable: '--font-intro',
+  weight: '400',
+  display: 'swap',
+});
 
 export default async function HomePage() {
   const t = await getTranslations('home');
@@ -22,7 +30,7 @@ export default async function HomePage() {
         <div className="hero-magic-copy">
           <MagicSymbolLoop />
           <HomeStats />
-          <p className="hero-intro">
+          <p className={`hero-intro ${introFont.variable}`}>
             {t.rich('intro', { name: siteConfig.name, highlight: (chunks) => <strong>{chunks}</strong> })}
           </p>
           <div className="hero-links">

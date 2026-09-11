@@ -338,8 +338,8 @@ body[data-section="blog"] .article-hero{background:linear-gradient(135deg,var(--
 .home-magic-hero{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(15rem,.72fr);align-items:start;gap:clamp(1.5rem,4vw,4rem);min-height:34rem;overflow:hidden;perspective:70rem;padding-top:0}
 .hero-magic-copy{min-width:0;padding:.15rem clamp(.5rem,3vw,2rem) 1rem;transform:translateZ(1rem)}
 .magic-symbol-loop{--symbol-color:var(--gold);color:var(--symbol-color);opacity:.75;margin:60px 0 35px;-webkit-mask-image:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent)}
-.hero-intro{font-family:var(--intro-en),var(--intro-zh),var(--font-serif);font-size:clamp(1.2rem,2.3vw,1.5rem);line-height:1.7;color:var(--text);letter-spacing:.03em;white-space:pre-line;margin-top:1rem;max-width:none}
-.hero-intro strong{color:var(--wine);font-weight:800;font-size:1.1em;letter-spacing:.01em}
+.hero-intro{font-family:var(--font-intro),var(--font-sans);font-weight:400;font-synthesis:none;font-size:clamp(1.2rem,2.3vw,1.5rem);line-height:1.7;color:var(--text);letter-spacing:.03em;white-space:pre-line;margin-top:1rem;max-width:none}
+.hero-intro strong{color:var(--wine);font-weight:400;font-size:1.1em;letter-spacing:.01em}
 /* 首页 hero：loop 条下方的日期时间（魔法阵时钟样式） */
 .hero-magic-copy .home-view{
   display:flex;
