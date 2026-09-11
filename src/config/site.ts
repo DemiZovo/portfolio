@@ -11,7 +11,7 @@ export interface SiteConfig {
 export const siteConfig = {
   name: 'DemiZ',
   description: 'DemiZ 的代码学习与生活记录。',
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://demiz.tech',
   author: {
     name: 'DemiZ',
     bio: '',
