@@ -1,5 +1,6 @@
 const base = new URL(process.argv[2] ?? 'http://127.0.0.1:3000');
 const failures = [];
+let canonicalOrigin = base.origin;
 
 async function request(url, label = url.pathname) {
   try {
@@ -16,7 +17,7 @@ function localUrl(value) {
   if (!value || /^(?:#|mailto:|tel:|javascript:|data:)/i.test(value)) return null;
   try {
     const url = new URL(value, base);
-    if (url.origin !== base.origin && url.hostname !== 'localhost') return null;
+    if (url.origin !== base.origin && url.origin !== canonicalOrigin && url.hostname !== 'localhost') return null;
     url.protocol = base.protocol;
     url.host = base.host;
     url.hash = '';
@@ -28,6 +29,9 @@ function localUrl(value) {
 
 const sitemapResponse = await request(new URL('/sitemap.xml', base), 'sitemap');
 const sitemap = sitemapResponse ? await sitemapResponse.text() : '';
+// A local production preview can correctly advertise the production domain.
+const firstLocation = sitemap.match(/<loc>(.*?)<\/loc>/)?.[1];
+if (firstLocation) canonicalOrigin = new URL(firstLocation).origin;
 const pageUrls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)]
   .map((match) => localUrl(match[1]))
   .filter(Boolean);

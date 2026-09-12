@@ -5,8 +5,8 @@ import { siteUrl } from '@/lib/site';
 const escapeXml = (value: string) =>
   value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 
-export function GET() {
-  const entries = getPublicContent();
+export async function GET() {
+  const entries = (await getPublicContent());
   const items = entries.map((entry) => {
     const link = siteUrl(`/zh/${entry.collection}/${entry.data.slug}`);
     return `<item>

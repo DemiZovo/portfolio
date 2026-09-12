@@ -10,7 +10,7 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const entries = getPublicContent();
+  const entries = (await getPublicContent());
   const tags = [...new Set(entries.flatMap((entry) => entry.data.tags))];
   return routing.locales.flatMap((locale) => tags.map((tag) => ({ locale, tag })));
 }
@@ -24,7 +24,7 @@ export default async function TagPage({ params }: Props) {
   const { locale, tag } = await params;
   setRequestLocale(locale);
   const decoded = decodeURIComponent(tag);
-  const entries = getPublicContent().filter((entry) => entry.data.tags.includes(decoded));
+  const entries = (await getPublicContent()).filter((entry) => entry.data.tags.includes(decoded));
   if (entries.length === 0) notFound();
 
   return (

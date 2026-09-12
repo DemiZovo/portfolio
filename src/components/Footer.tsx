@@ -19,6 +19,7 @@ export default async function Footer() {
         {exploreLinks.map(({ href, label, localized }) => localized
           ? <Link key={label} href={href as never}>{label}</Link>
           : <a key={label} href={href}>{label}</a>)}
+        <Link href="/write" prefetch={false}>站长入口</Link>
       </nav>
       <p>{t('copyright', { year: new Date().getFullYear(), name: siteConfig.author.name })}</p>
       <p className="site-footer__note">{tCommon('tagline')}</p>

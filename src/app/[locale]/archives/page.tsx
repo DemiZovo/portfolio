@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ArchivesPage() {
   const t = await getTranslations('archives');
   const locale = await getLocale();
-  const entries = getPublicContent();
+  const entries = (await getPublicContent());
   const groups = new Map<string, typeof entries>();
   for (const entry of entries) {
     const year = String(entry.data.published.getFullYear());

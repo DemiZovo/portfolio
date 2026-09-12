@@ -10,7 +10,7 @@ interface Props {
 
 export default async function BlogCategory({ category }: Props) {
   const t = await getTranslations('blog');
-  const entries = getBlogByCategory(category.slug);
+  const entries = (await getBlogByCategory(category.slug));
   const tagCounts = new Map<string, number>();
   for (const entry of entries) {
     for (const tag of entry.data.tags) tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);

@@ -1,12 +1,15 @@
 'use client';
 
 import { useEffect } from 'react';
+import { usePathname } from '@/i18n/navigation';
 
 export default function MagicScrollEffects() {
+  const pathname = usePathname();
   useEffect(() => {
+    if (pathname !== '/') return;
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const targets = [
-      ...document.querySelectorAll('.site-main > section, .site-footer'),
+      ...document.querySelectorAll('.home-updates'),
     ];
 
     if (reduceMotion) return;
@@ -26,8 +29,12 @@ export default function MagicScrollEffects() {
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
 
     targets.forEach((target) => observer.observe(target));
-    return () => observer.disconnect();
-  }, []);
+    return () => {
+      observer.disconnect();
+      document.documentElement.classList.remove('magic-motion-ready');
+      targets.forEach(target => { target.classList.remove('magic-reveal', 'is-revealed'); });
+    };
+  }, [pathname]);
 
   return null;
 }

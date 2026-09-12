@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
+import { Link } from '@/i18n/navigation';
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -14,13 +15,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-// 私有编辑功能尚未实现，因此本页不链接不存在的编辑路由。
 const projects = [
   {
     name: 'DemiZ Writer',
-    status: 'Building',
+    status: 'Private',
     stack: ['Next.js', 'TypeScript', 'Vercel'],
-    href: '',
+    href: '/write',
   },
 ];
 
@@ -45,7 +45,7 @@ export default async function WorkshopPage() {
               <p className="project-row__stack">{project.stack.join(' · ')}</p>
             </div>
             <div className="project-row__actions">
-              {project.href ? <a href={project.href}>{t('open')}</a> : <span className="project-row__soon">{t('comingSoon')}</span>}
+              <Link href={project.href}>{t('open')}</Link>
             </div>
           </article>
         ))}

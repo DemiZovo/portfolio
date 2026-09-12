@@ -17,15 +17,16 @@ interface Props {
   params: Promise<{ locale: string; slug: string }>;
 }
 
-export function generateStaticParams() {
-  return routing.locales.flatMap((locale) => getPublicLife().map((entry) => ({ locale, slug: entry.data.slug })));
+export async function generateStaticParams() {
+  const entries = await getPublicLife();
+  return routing.locales.flatMap((locale) => entries.map((entry) => ({ locale, slug: entry.data.slug })));
 }
 
-export const dynamicParams = false;
+export const dynamicParams = true;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
-  const entry = getLifeBySlug(slug);
+  const entry = (await getLifeBySlug(slug));
   if (!entry) return { title: '日常手账' };
   const title = entryTitle(entry, locale);
   const description = entryDescription(entry, locale);
@@ -59,7 +60,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function LifeSlugPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
-  const entries = getPublicLife();
+  const entries = (await getPublicLife());
   const index = entries.findIndex((entry) => entry.data.slug === slug);
   if (index === -1) notFound();
   const entry = entries[index]!;

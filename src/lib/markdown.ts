@@ -55,6 +55,21 @@ function annotate(headings: Heading[]) {
   };
 }
 
+// Raw HTML is discarded by remarkRehype; also reject active URL schemes.
+function safeUrls() {
+  return (tree: unknown) => {
+    visit(tree as never, 'element', (node) => {
+      const element = node as unknown as HElement;
+      for (const key of ['href', 'src']) {
+        const value = element.properties?.[key];
+        if (typeof value !== 'string') continue;
+        const normalized = value.replace(/[\u0000-\u0020\u007f]/g, '').toLowerCase();
+        if (/^[a-z][a-z0-9+.-]*:/.test(normalized) && !/^(https?:|mailto:)/.test(normalized)) delete element.properties![key];
+      }
+    });
+  };
+}
+
 export async function renderMarkdown(markdown: string): Promise<{ html: string; headings: Heading[] }> {
   const headings: Heading[] = [];
   const file = await unified()
@@ -63,6 +78,7 @@ export async function renderMarkdown(markdown: string): Promise<{ html: string; 
     .use(remarkRehype)
     .use(rehypeSlug)        // github-slugger，与 Astro 的 heading slug 一致
     .use(rehypeHighlight)   // highlight.js 语法高亮，加 language-* class
+    .use(safeUrls)
     .use(annotate, headings)
     .use(rehypeStringify)
     .process(markdown);

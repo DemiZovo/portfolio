@@ -17,6 +17,7 @@ interface OptionWheelProps {
   onSelect: (index: number, item: OptionWheelItem) => void;
   /** 高亮索引变化时触发（滚动/拖拽/键盘）。 */
   onIndexChange?: (index: number, item: OptionWheelItem) => void;
+  onIntent?: (item: OptionWheelItem) => void;
   side?: 'left' | 'right';
   textColor?: string;
   activeColor?: string;
@@ -41,6 +42,7 @@ export default function OptionWheel({
   selected,
   onSelect,
   onIndexChange,
+  onIntent,
   side = 'left',
   textColor = 'var(--muted)',
   activeColor = 'var(--accent)',
@@ -336,6 +338,8 @@ export default function OptionWheel({
           aria-label={item.ariaLabel ?? item.label}
           tabIndex={-1}
           className="ow-item"
+          onPointerEnter={() => onIntent?.(item)}
+          onFocus={() => onIntent?.(item)}
           onClick={() => handleItemClick(index)}
         >
           {item.label}

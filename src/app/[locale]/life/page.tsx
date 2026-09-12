@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function LifeIndexPage() {
   const tArch = await getTranslations('archives');
   const locale = await getLocale();
-  const entries = getPublicLife();
+  const entries = (await getPublicLife());
   const dateFormat = (d: Date) => d.toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'en-US');
 
   return (

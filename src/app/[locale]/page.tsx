@@ -10,7 +10,7 @@ import { siteConfig } from '@/config/site';
 import { Link } from '@/i18n/navigation';
 
 const introFont = localFont({
-  src: '../../assets/fonts/chill-round.woff2',
+  src: '../../assets/fonts/chill-round-intro.woff2',
   variable: '--font-intro',
   weight: '400',
   display: 'swap',
@@ -19,7 +19,7 @@ const introFont = localFont({
 export default async function HomePage() {
   const t = await getTranslations('home');
   const locale = await getLocale();
-  const allEntries = getPublicContent();
+  const allEntries = (await getPublicContent());
   const featuredEntries = allEntries.filter((entry) => entry.data.featured);
   const entries = allEntries.slice(0, 6);
   const dateFormat = (d: Date) => d.toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'en-US');

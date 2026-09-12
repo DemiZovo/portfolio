@@ -11,9 +11,9 @@ interface Props {
   params: Promise<{ locale: string; slug: string }>;
 }
 
-export function generateStaticParams() {
-  const blog = getPublicBlog();
-  const categories = getBlogCategories();
+export async function generateStaticParams() {
+  const blog = (await getPublicBlog());
+  const categories = (await getBlogCategories());
   const slugs = [
     ...blog.map((entry) => ({ slug: entry.data.slug })),
     ...categories.map((category) => ({ slug: category.slug })),
@@ -21,13 +21,13 @@ export function generateStaticParams() {
   return routing.locales.flatMap((locale) => slugs.map((item) => ({ locale, ...item })));
 }
 
-export const dynamicParams = false;
+export const dynamicParams = true;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const entry = getBlogBySlug(slug);
+  const entry = (await getBlogBySlug(slug));
   if (entry) return articleMetadata(entry);
-  const category = getBlogCategories().find((item) => item.slug === slug);
+  const category = (await getBlogCategories()).find((item) => item.slug === slug);
   if (category) {
     return {
       title: `${category.name} | DemiZ`,
@@ -42,10 +42,10 @@ export default async function BlogSlugPage({ params }: Props) {
   setRequestLocale(locale);
 
   // 分类优先（与 Astro 的 getStaticPaths 行为一致：categoryPaths 在后，冲突时覆盖）。
-  const category = getBlogCategories().find((c) => c.slug === slug);
+  const category = (await getBlogCategories()).find((c) => c.slug === slug);
   if (category) return <BlogCategory category={category} />;
 
-  const blog = getPublicBlog();
+  const blog = (await getPublicBlog());
   const index = blog.findIndex((entry) => entry.data.slug === slug);
   if (index === -1) notFound();
   return <BlogArticle entry={blog[index]} previous={blog[index - 1] ?? null} next={blog[index + 1] ?? null} />;

@@ -1,7 +1,7 @@
 'use client';
 
-import { useMemo } from 'react';
-import { useTranslations } from 'next-intl';
+import { useMemo, useTransition } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
 import OptionWheel, { type OptionWheelItem } from './OptionWheel';
 import { usePathname, useRouter } from '@/i18n/navigation';
 
@@ -21,6 +21,8 @@ export default function NavWheel() {
   const t = useTranslations('nav');
   const pathname = usePathname();
   const router = useRouter();
+  const locale = useLocale();
+  const [pending, startTransition] = useTransition();
   const selected = useMemo(() => currentIndex(pathname), [pathname]);
 
   const items: OptionWheelItem[] = useMemo(
@@ -36,15 +38,19 @@ export default function NavWheel() {
     [t],
   );
 
+  if (pathname.startsWith('/write')) return null;
   return (
     <div className="ow-nav" aria-hidden="false">
+      {pending && <span role="status" className="navigation-pending">{locale === 'zh' ? '正在打开…' : 'Opening…'}</span>}
       <OptionWheel
         items={items}
         ariaLabel={t('main')}
         selected={selected}
         onSelect={(_index, item) => {
-          if (item.href) router.push(item.href as never);
+          if (item.href) startTransition(() => router.push(item.href as never));
         }}
+        onIntent={(item) => { if (item.href) router.prefetch(item.href as never); }}
+        onIndexChange={(_index, item) => { if (item.href) router.prefetch(item.href as never); }}
         side="left"
         textColor="var(--muted)"
         activeColor="var(--accent)"

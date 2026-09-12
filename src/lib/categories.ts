@@ -6,9 +6,9 @@ export interface CategoryWithCount extends Category {
 }
 
 /** 分类按 order 排序，附文章数；未在 categories.ts 注册的 category 会被忽略。 */
-export function getBlogCategories(): CategoryWithCount[] {
+export async function getBlogCategories(): Promise<CategoryWithCount[]> {
   const counts = new Map<string, number>();
-  for (const entry of getPublicBlog()) {
+  for (const entry of (await getPublicBlog())) {
     const slug = entry.data.category;
     counts.set(slug, (counts.get(slug) ?? 0) + 1);
   }
@@ -16,8 +16,8 @@ export function getBlogCategories(): CategoryWithCount[] {
 }
 
 /** 取某分类下所有公开文章（按时间倒序）。 */
-export function getBlogByCategory(slug: string): BlogEntry[] {
-  return getPublicBlog().filter((entry) => entry.data.category === slug);
+export async function getBlogByCategory(slug: string): Promise<BlogEntry[]> {
+  return (await getPublicBlog()).filter((entry) => entry.data.category === slug);
 }
 
 /** 文章分类的中文名；未注册的分类退回原文。 */

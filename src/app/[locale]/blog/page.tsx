@@ -21,8 +21,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogIndexPage() {
   const t = await getTranslations('blog');
-  const categories = getBlogCategories();
-  const latest = getPublicBlog().slice(0, 8);
+  const categories = (await getBlogCategories());
+  const latest = (await getPublicBlog()).slice(0, 8);
 
   return (
     <>

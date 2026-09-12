@@ -4,11 +4,11 @@ import { getBlogCategories } from '@/lib/categories';
 import { siteUrl } from '@/lib/site';
 import { routing } from '@/i18n/routing';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
   const staticPages = ['', '/about', '/archives', '/blog', '/tags', '/life', '/workshop', '/collection', '/guestbook', '/privacy'];
-  const entries = getPublicContent();
-  const categories = getBlogCategories();
+  const entries = (await getPublicContent());
+  const categories = (await getBlogCategories());
   const tags = [...new Set(entries.flatMap((entry) => entry.data.tags))].sort((a, b) => a.localeCompare(b));
   const alternates = (path: string): MetadataRoute.Sitemap[number]['alternates'] => ({
     languages: {

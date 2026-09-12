@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function TagsIndexPage() {
   const t = await getTranslations('tags');
-  const entries = getPublicContent();
+  const entries = (await getPublicContent());
   const counts = new Map<string, number>();
   for (const entry of entries) {
     for (const tag of entry.data.tags) counts.set(tag, (counts.get(tag) ?? 0) + 1);

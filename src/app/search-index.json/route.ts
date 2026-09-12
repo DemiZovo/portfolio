@@ -2,8 +2,8 @@ import { entryPath, getPublicContent } from '@/lib/content';
 import { categoryLabel } from '@/lib/categories';
 import { sitePath } from '@/lib/urls';
 
-export function GET() {
-  const entries = getPublicContent();
+export async function GET() {
+  const entries = (await getPublicContent());
   return new Response(JSON.stringify(entries.map((entry) => ({
     title: entry.data.title,
     titleEn: 'titleEn' in entry.data ? entry.data.titleEn : undefined,

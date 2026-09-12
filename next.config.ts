@@ -4,6 +4,7 @@ import { categories } from './src/data/categories';
 import { legacyCategoryAliases } from './src/lib/categories';
 
 const nextConfig: NextConfig = {
+  outputFileTracingRoot: process.cwd(),
   async redirects() {
     const redirects: { source: string; destination: string; permanent: boolean }[] = [
       { source: '/', destination: '/zh', permanent: false },
