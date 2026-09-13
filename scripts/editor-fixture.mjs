@@ -27,6 +27,7 @@ export { owner, visitor };
 
 export async function startFixture(port = 54329) {
   const db = await createDatabase();
+  await db.exec(fs.readFileSync(new URL('../supabase-workshop.sql', import.meta.url), 'utf8'));
   if (fs.existsSync('.test-output/import.sql')) await db.exec(fs.readFileSync('.test-output/import.sql', 'utf8'));
   const server = createServer(async (req, res) => {
     const url = new URL(req.url, `http://127.0.0.1:${port}`);
@@ -42,6 +43,11 @@ export async function startFixture(port = 54329) {
       if (url.pathname === '/auth/v1/user') return send(token === 'fixture-owner' || token === 'fixture-visitor' ? 200 : 401, { id: token === 'fixture-owner' ? owner : visitor });
       if (url.pathname === '/auth/v1/logout') return send(200, {});
       if (url.pathname === '/rest/v1/rpc/is_site_admin') return send(200, token === 'fixture-owner');
+      if (url.pathname === '/rest/v1/workshop_projects') return send(200, (await db.query('select projects, version from public.workshop_projects')).rows);
+      if (url.pathname === '/rest/v1/rpc/save_workshop_projects') {
+        const result = await asUser(db, token === 'fixture-owner' ? owner : visitor, tx => tx.query('select * from public.save_workshop_projects($1,$2)', [body.expected_version, JSON.stringify(body.project_list)]));
+        return send(200, result.rows[0]);
+      }
       if (url.pathname === '/rest/v1/rpc/edit_article') {
         const result = await asUser(db, token === 'fixture-owner' ? owner : visitor, tx => tx.query(
           'select * from public.edit_article($1,$2,$3,$4,$5,$6)',

@@ -39,3 +39,16 @@
 - 测试页账号为 `owner@example.test` / `local-test-only`。所有测试数据仅存在于独立测试进程内存中，进程结束即消失。
 
 缓存使用 Next.js 15 的带标签 fetch 与发布后失效，参考 [Next.js 15 缓存文档](https://nextjs.org/docs/15/app/guides/caching)。登录后通过 Auth 服务端用户查询验证凭证，参考 [Supabase getUser](https://supabase.com/docs/reference/javascript/auth-getuser)。
+
+
+## 工坊项目管理
+
+先执行现有的 supabase-editor.sql 并配置站长账号，再在同一个 Supabase 项目执行 supabase-workshop.sql。该脚本新增独立项目表，不修改文章或留言表；重复执行不会重置项目。此项没有在本次本地修改中连接线上数据库执行。
+
+进入 /zh/write 后选择「项目管理」（直达 /zh/write?view=projects）。选择项目可修改名称、GitHub 仓库地址、技术语言、中英文简介和封面；支持新增、上移、下移、删除与撤销删除。最后点击「保存并更新工坊」，整份列表一次性生效。删除卡片不会删除 GitHub 仓库。清空列表并保存后工坊保持为空。
+
+第一次打开会使用 src/data/workshop.ts 的现有项目；首次保存后以数据库为准。数据库模式下读取失败不会恢复已删除的默认卡片，而会显示暂时不可用。公开工坊读取不缓存，保存后刷新可见，无需重新构建。
+
+需要先启用现有 CONTENT_SOURCE=supabase、NEXT_PUBLIC_SUPABASE_URL 和 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY 配置。尚未启用时工坊仍显示代码中的默认卡片，Writer 会显示配置提示。项目管理不是浏览器本地存储。
+
+离开页面和退出登录前会提醒未保存修改；保存失败保留当前输入，登录过期可展开账号重新登录。出现版本冲突时可先「导出当前输入」保留 JSON，再「重新加载」合并，防止覆盖其他窗口的修改。

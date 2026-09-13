@@ -1,16 +1,7 @@
 /** Curated public repositories. Update this list to add or remove showcase cards.
  * Descriptions are based on the owner's public repository metadata; no runtime GitHub API is needed.
  */
-interface WorkshopProject {
-  name: string;
-  url: `https://github.com/${string}/${string}`;
-  description: { zh: string; en: string };
-  language?: string;
-  art: 'portfolio' | 'site' | 'notebook' | 'experiment';
-  symbol: string;
-  coverLabel: string;
-  coverFooter: string;
-}
+import type { WorkshopProject } from '@/lib/workshop-model';
 
 export const workshopProjects: WorkshopProject[] = [
   {

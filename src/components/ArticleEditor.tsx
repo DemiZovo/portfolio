@@ -5,6 +5,8 @@ import { useLocale } from 'next-intl';
 import { categories } from '@/data/categories';
 import type { ArticleDocument, EditorArticle } from '@/lib/editor-model';
 import './article-editor.css';
+import ProjectEditor from './ProjectEditor';
+import { Link } from '@/i18n/navigation';
 
 async function api(path: string, method = 'GET', value?: unknown) {
   const response = await fetch(`/api/editor/${path}`, {
@@ -20,11 +22,12 @@ const blankDocument = (): ArticleDocument => ({ data: {
   category: 'other', tags: [], featured: false, toc: true, status: 'growing',
 }, body: '' });
 
-export default function ArticleEditor({ configured, initialKind, initialSlug, initialCategory, createNew }: {
-  configured: boolean; initialKind?: string; initialSlug?: string; initialCategory?: string; createNew?: boolean;
+export default function ArticleEditor({ configured, initialKind, initialSlug, initialCategory, createNew, manageProjects = false }: {
+  configured: boolean; initialKind?: string; initialSlug?: string; initialCategory?: string; createNew?: boolean; manageProjects?: boolean;
 }) {
   const locale = useLocale();
   const [owner, setOwner] = useState(false);
+  const [projectDirty, setProjectDirty] = useState(false);
   const [checking, setChecking] = useState(configured);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
@@ -54,7 +57,7 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
     else confirmDialog.current?.close();
   }, [confirmation]);
   const snapshot = JSON.stringify({ kind, slug, doc });
-  const dirty = editing && snapshot !== saved;
+  const dirty = projectDirty || (editing && snapshot !== saved);
 
   useEffect(() => {
     if (!owner) return;
@@ -94,11 +97,12 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
     api('session').then(async () => {
       if (cancelled) return;
       setOwner(true);
+      if (manageProjects) return;
       const result: EditorArticle[] = await api('articles');
       if (!cancelled) setRows(result);
     }).catch((e: Error) => { if (!cancelled) setMessage(e.message); }).finally(() => { if (!cancelled) setChecking(false); });
     return () => { cancelled = true; };
-  }, [configured]);
+  }, [configured, manageProjects]);
   useEffect(() => {
     if (didOpen.current || !owner) return;
     if (createNew) { didOpen.current = true; open(null); return; }
@@ -130,7 +134,7 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
   };
   async function login(e: FormEvent) {
     e.preventDefault(); setBusy(true); setError('');
-    try { await api('session', 'POST', { email, password }); setPassword(''); setOwner(true); window.dispatchEvent(new Event('editor-session-change')); setMessage(''); await reloadRows(); }
+    try { await api('session', 'POST', { email, password }); setPassword(''); setOwner(true); window.dispatchEvent(new Event('editor-session-change')); setMessage(''); if (!manageProjects) await reloadRows(); }
     catch (e) { setError((e as Error).message); }
     finally { setBusy(false); }
   }
@@ -156,11 +160,11 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
     const a = document.createElement('a'); a.href = url; a.download = `${slug || 'untitled'}.md`; a.click(); URL.revokeObjectURL(url);
   }
   const visibleRows = rows.filter(row => (filter === 'trash' ? !!row.deleted_at : !row.deleted_at && (filter === 'all' || (filter === 'published' ? !!row.published : !row.published))) && String(row.working.data.title).toLowerCase().includes(query.toLowerCase()));
-  if (!configured) return <section className="editor-shell"><h1>文章管理</h1><p>文章管理尚未启用。</p><p>请先完成数据库初始化、导入现有文章，并配置站长账号和内容来源。操作说明见项目中的 EDITOR_SETUP.md。</p></section>;
+  if (!configured) return <section className="editor-shell"><h1>{manageProjects ? '项目管理' : '文章管理'}</h1><p>站长 Writer 尚未启用。</p><p>请先完成数据库初始化、导入现有文章，并配置站长账号和内容来源。操作说明见项目中的 EDITOR_SETUP.md；管理工坊项目还需执行 supabase-workshop.sql。</p></section>;
   if (checking) return <p role="status">正在检查登录状态…</p>;
 
   return <section className="editor-shell">
-    <header className="editor-heading"><div><p className="eyebrow">DEMiZ · WRITING ROOM</p><h1>文章管理</h1></div>
+    <header className="editor-heading"><div><p className="eyebrow">DEMiZ · WRITING ROOM</p><h1>{manageProjects ? '项目管理' : '文章管理'}</h1></div>
       {owner && <button disabled={busy} onClick={async () => {
         if (!mayLeave()) return;
         setBusy(true);
@@ -168,6 +172,7 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
         catch (e) { setError((e as Error).message); } finally { setBusy(false); }
       }}>退出登录</button>}
     </header>
+    <nav className="editor-actions" aria-label="Writer 管理栏目"><Link href="/write" aria-current={!manageProjects ? 'page' : undefined}>文章管理</Link><Link href="/write?view=projects" aria-current={manageProjects ? 'page' : undefined}>项目管理</Link></nav>
     {message && <p role="status" className="editor-message">{message}</p>}
     {error && <p role="alert" className="editor-error">{error}</p>}
     {!owner ? <form onSubmit={login} className="editor-login">
@@ -175,7 +180,15 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
       <label>邮箱<input type="email" autoComplete="username" required value={email} onChange={e => setEmail(e.target.value)} /></label>
       <label>密码<input type="password" autoComplete="current-password" required value={password} onChange={e => setPassword(e.target.value)} /></label>
       <button disabled={busy} type="submit">{busy ? '正在登录…' : '登录'}</button>
-    </form> : <>
+    </form> : manageProjects ? <>
+      <details className="editor-secondary"><summary>账号 / 重新登录</summary><form className="editor-login" onSubmit={login}>
+        <p>登录过期时在此重新登录，项目输入会保留。</p>
+        <label>邮箱<input type="email" autoComplete="username" required value={email} onChange={e => setEmail(e.target.value)} /></label>
+        <label>密码<input type="password" autoComplete="current-password" required value={password} onChange={e => setPassword(e.target.value)} /></label>
+        <button disabled={busy}>重新登录</button>
+      </form></details>
+      <ProjectEditor onDirty={setProjectDirty} />
+    </> : <>
       {recovery && <section className="editor-confirm" role="status"><p>发现本标签页未保存的内容：{String(recovery.doc.data.title || '未命名文章')}。</p>
         <button disabled={busy} onClick={() => {
           if (!mayLeave()) return;

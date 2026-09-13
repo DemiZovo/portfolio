@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import { getLocale, getTranslations } from 'next-intl/server';
-import { workshopProjects } from '@/data/workshop';
+import { getWorkshopProjects } from '@/lib/workshop-server';
 import { siteConfig } from '@/config/site';
 import styles from './workshop.module.css';
+
+export const dynamic = 'force-dynamic';
 
 interface Props { params: Promise<{ locale: string }> }
 
@@ -22,6 +24,7 @@ function GitHub() {
 
 export default async function WorkshopPage() {
   const zh = (await getLocale()) === 'zh';
+  const { projects: workshopProjects, unavailable } = await getWorkshopProjects();
   return (
     <div className={styles.workshop}>
       <header className={styles.hero}>
@@ -40,8 +43,9 @@ export default async function WorkshopPage() {
           <span className={styles.destination}><GitHub /> {zh ? '在 GitHub 打开' : 'Explore on GitHub'}</span>
         </div>
         <div className={styles.grid}>
+          {workshopProjects.length === 0 && <p className={styles.empty} role="status">{unavailable ? (zh ? '项目暂时无法加载，请稍后刷新。' : 'Projects are temporarily unavailable. Please try again later.') : (zh ? '工坊暂时没有展示项目。' : 'No projects are on display yet.')}</p>}
           {workshopProjects.map((project, index) => (
-            <a key={project.name} className={`${styles.card} ${index === 0 ? styles.featured : ''}`} href={project.url} target="_blank" rel="noopener noreferrer" aria-label={`${project.name} — GitHub${zh ? '（新标签页）' : ' (new tab)'}`}>
+            <a key={project.name} className={styles.card} href={project.url} target="_blank" rel="noopener noreferrer" aria-label={`${project.name} — GitHub${zh ? '（新标签页）' : ' (new tab)'}`}>
               <div className={`${styles.cover} ${styles[project.art]}`} aria-hidden="true">
                 <div className={styles.coverTop}><span>DEMIZ / {String(index + 1).padStart(2, '0')}</span><span>✦</span></div>
                 <div className={styles.orbit} />
@@ -49,10 +53,10 @@ export default async function WorkshopPage() {
                 <span className={styles.coverBottom}>{project.coverFooter}</span>
               </div>
               <div className={styles.cardBody}>
-                <p className={styles.cardKicker}>{index === 0 ? (zh ? '正在构建的个人空间' : 'A personal space in the making') : `REPOSITORY ${String(index + 1).padStart(2, '0')}`}</p>
+                <p className={styles.cardKicker}>{`REPOSITORY ${String(index + 1).padStart(2, '0')}`}</p>
                 <h3>{project.name}<span className={styles.openIcon}><Arrow /></span></h3>
-                <p className={styles.description}>{zh ? project.description.zh : project.description.en}</p>
-                <div className={styles.cardFoot}><span className={styles.language}>{project.language ?? (zh ? '个人仓库' : 'Personal repository')}</span><span className={styles.repoLink}>GitHub <Arrow /></span></div>
+                <p className={styles.description}>{zh ? project.description.zh : (project.description.en || project.description.zh)}</p>
+                <div className={styles.cardFoot}><span className={styles.language}>{project.language || (zh ? '个人仓库' : 'Personal repository')}</span><span className={styles.repoLink}>GitHub <Arrow /></span></div>
               </div>
             </a>
           ))}

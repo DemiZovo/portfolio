@@ -29,6 +29,7 @@ export default function OwnerTools() {
   const match = pathname.match(/^\/(blog|life)\/([^/]+)\/?$/);
   return <aside className="owner-tools" aria-label="站长文章操作">
     <Link href="/write">管理文章</Link>
+    <Link href="/write?view=projects">管理项目</Link>
     {match && !(match[1] === 'blog' && getCategory(match[2])) && <Link href={`/write?kind=${match[1]}&slug=${encodeURIComponent(match[2])}`}>编辑 / 删除此文章</Link>}
   </aside>;
 }
