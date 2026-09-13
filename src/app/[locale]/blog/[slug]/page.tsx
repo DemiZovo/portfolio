@@ -41,7 +41,7 @@ export default async function BlogSlugPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
 
-  // 分类优先（与 Astro 的 getStaticPaths 行为一致：categoryPaths 在后，冲突时覆盖）。
+  // 分类路由优先，避免与文章短链接冲突。
   const category = (await getBlogCategories()).find((c) => c.slug === slug);
   if (category) return <BlogCategory category={category} />;
 

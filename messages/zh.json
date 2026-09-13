@@ -10,13 +10,13 @@
   "nav": {
     "home": "首页",
     "blog": "魔法笔记",
-    "collection": "宝物柜",
     "life": "日常手账",
     "archives": "归档",
     "about": "关于",
     "guestbook": "留言板",
     "footer": "页脚导航",
-    "main": "主导航"
+    "main": "主导航",
+    "workshop": "工坊"
   },
   "header": {
     "search": "搜索",
@@ -52,7 +52,7 @@
     "title": "站内搜索",
     "eyebrow": "Search",
     "label": "搜索标题、摘要、分类、标签或正文",
-    "placeholder": "例如：Astro、WSL2、生活",
+    "placeholder": "例如：TypeScript、WSL2、生活",
     "clear": "清空",
     "hint": "输入关键词开始搜索。",
     "found": "找到 {count} 条结果。",
@@ -84,11 +84,6 @@
   "life": {
     "title": "日常手账",
     "backToJournal": "返回日常手账"
-  },
-  "collection": {
-    "title": "宝物柜",
-    "heroDesc": "我收藏和喜欢的东西：软件、书、动画、网站、设备。与「我做的」工作台分开。",
-    "empty": "宝物柜正在整理中。\n喜欢的东西，值得认真收藏。"
   },
   "archives": {
     "title": "库洛牌全书",
@@ -141,7 +136,7 @@
     "notFoundMessage": "这条留言不存在或已被删除。"
   },
   "workshop": {
-    "title": "工作台",
+    "title": "工坊",
     "eyebrow": "Workshop",
     "heroDesc": "一些因为自己想用，所以顺手做出来的东西。不是简历项目页，是我的实验室。",
     "projectDesc": "一个为了自己写 Markdown 做出来的小型写作环境，文章和图片一起提交，构建通过后自动发布。",

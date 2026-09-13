@@ -11,6 +11,7 @@ import ArticleReaderTools from './ArticleReaderTools';
 import ArticleHeader from './ArticleHeader';
 import ArticleEnding from './ArticleEnding';
 import JsonLd from './JsonLd';
+import { ArticleEditLink } from './OwnerTools';
 
 interface Props {
   entry: BlogEntry;
@@ -79,6 +80,7 @@ export default async function BlogArticle({ entry, previous, next }: Props) {
             status={statusLabel}
             tags={entry.data.tags}
           />
+          <ArticleEditLink kind="blog" slug={entry.data.slug} />
           <div className="article-content" dangerouslySetInnerHTML={{ __html: html }} />
           <ArticleEnding seed={entry.data.slug} />
           <ArticleNavigation

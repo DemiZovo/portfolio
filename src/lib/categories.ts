@@ -27,13 +27,10 @@ export function categoryLabel(slug: string): string {
 
 /**
  * 旧分类名 → 新 slug 的迁移映射（v2 重构前的历史 URL，用于 301 重定向）。
- * 放在模块里而不是页面 frontmatter，因为 Astro 会把 getStaticPaths 提升到模块作用域，
- * frontmatter 里的 const 不会跟随，导致运行时 undefined。
  */
 export const legacyCategoryAliases: Record<string, string> = {
   'AI Infra': 'ai-infra',
   'Web 基础': 'web',
   '开发环境': 'dev',
   '部署': 'engineering',
-  Astro: 'web',
 };

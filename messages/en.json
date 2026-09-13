@@ -10,13 +10,13 @@
   "nav": {
     "home": "Home",
     "blog": "Notes",
-    "collection": "Collection",
     "life": "Journal",
     "archives": "Archive",
     "about": "About",
     "guestbook": "Guestbook",
     "footer": "Footer navigation",
-    "main": "Main navigation"
+    "main": "Main navigation",
+    "workshop": "Workshop"
   },
   "header": {
     "search": "Search",
@@ -52,7 +52,7 @@
     "title": "Search",
     "eyebrow": "Search",
     "label": "Search titles, summaries, categories, tags or body",
-    "placeholder": "e.g. Astro, WSL2, life",
+    "placeholder": "e.g. TypeScript, WSL2, life",
     "clear": "Clear",
     "hint": "Type a keyword to search.",
     "found": "{count} results found.",
@@ -84,11 +84,6 @@
   "life": {
     "title": "Journal",
     "backToJournal": "Back to Journal"
-  },
-  "collection": {
-    "title": "Collection",
-    "heroDesc": "Things I collect and love: software, books, anime, websites, devices. Separated from the workshop (what I make).",
-    "empty": "The collection is being organized.\nThings worth loving deserve careful keeping."
   },
   "archives": {
     "title": "The Card Book",

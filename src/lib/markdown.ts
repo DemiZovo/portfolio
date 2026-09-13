@@ -76,7 +76,7 @@ export async function renderMarkdown(markdown: string): Promise<{ html: string; 
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkRehype)
-    .use(rehypeSlug)        // github-slugger，与 Astro 的 heading slug 一致
+    .use(rehypeSlug)        // 使用 github-slugger 生成稳定的标题锚点
     .use(rehypeHighlight)   // highlight.js 语法高亮，加 language-* class
     .use(safeUrls)
     .use(annotate, headings)

@@ -444,7 +444,6 @@ body[data-section="blog"] .article-hero{background:linear-gradient(135deg,var(--
 @media(hover:hover){.magic-card:hover .magic-card-inner,.magic-card:focus-within .magic-card-inner{transform:rotateY(180deg)}}
 
 .card-progress{grid-template-columns:1fr;perspective:80rem;background:linear-gradient(105deg,var(--surface),color-mix(in srgb,var(--sky) 12%,var(--surface)))}
-.collection-legend{display:flex;flex-wrap:wrap;gap:1rem;color:var(--muted);font-size:.82rem}
 .mini-card-wall{grid-template-columns:repeat(auto-fit,minmax(7.4rem,1fr));perspective:60rem}
 .mini-magic-card{position:relative;flex-direction:column;min-height:10rem;border-color:var(--gold);border-radius:.45rem;box-shadow:.2rem .3rem 0 color-mix(in srgb,var(--wine) 14%,transparent);transform:rotateX(3deg) translateZ(.3rem);transition:transform .25s ease,filter .25s ease}
 .mini-magic-card::after{position:absolute;inset:.3rem;border:1px solid color-mix(in srgb,var(--wine) 30%,transparent);border-radius:.25rem;content:""}.mini-magic-card b{color:var(--gold);font-size:1.6rem}.mini-magic-card em{font-style:normal;font-weight:700}.mini-magic-card small{color:var(--muted)}

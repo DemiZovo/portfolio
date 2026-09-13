@@ -20,8 +20,8 @@ const blankDocument = (): ArticleDocument => ({ data: {
   category: 'other', tags: [], featured: false, toc: true, status: 'growing',
 }, body: '' });
 
-export default function ArticleEditor({ configured, initialKind, initialSlug }: {
-  configured: boolean; initialKind?: string; initialSlug?: string;
+export default function ArticleEditor({ configured, initialKind, initialSlug, initialCategory, createNew }: {
+  configured: boolean; initialKind?: string; initialSlug?: string; initialCategory?: string; createNew?: boolean;
 }) {
   const locale = useLocale();
   const [owner, setOwner] = useState(false);
@@ -44,6 +44,15 @@ export default function ArticleEditor({ configured, initialKind, initialSlug }: 
   const [password, setPassword] = useState('');
   const [recovery, setRecovery] = useState<{ active: EditorArticle | null; kind: 'blog' | 'life'; slug: string; doc: ArticleDocument } | null>(null);
   const didOpen = useRef(false);
+  const confirmDialog = useRef<HTMLDialogElement>(null);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  useEffect(() => {
+    if (confirmation) {
+      confirmDialog.current?.showModal();
+      confirmDialog.current?.querySelector<HTMLButtonElement>('[data-cancel]')?.focus();
+    }
+    else confirmDialog.current?.close();
+  }, [confirmation]);
   const snapshot = JSON.stringify({ kind, slug, doc });
   const dirty = editing && snapshot !== saved;
 
@@ -68,9 +77,11 @@ export default function ArticleEditor({ configured, initialKind, initialSlug }: 
   function open(row: EditorArticle | null) {
     const nextKind = row?.kind ?? (initialKind === 'life' ? 'life' : 'blog');
     const nextDoc = row?.working ?? blankDocument();
+    if (!row && categories.some(c => c.slug === initialCategory)) nextDoc.data.category = initialCategory;
     setActive(row); setKind(nextKind); setSlug(row?.slug ?? ''); setDoc(nextDoc);
     setSaved(JSON.stringify({ kind: nextKind, slug: row?.slug ?? '', doc: nextDoc }));
     setEditing(true); setHtml(null); setError(''); setMessage(''); setConfirmation(null);
+    setSettingsOpen(!row);
   }
   async function reloadRows() {
     const result: EditorArticle[] = await api('articles');
@@ -89,13 +100,15 @@ export default function ArticleEditor({ configured, initialKind, initialSlug }: 
     return () => { cancelled = true; };
   }, [configured]);
   useEffect(() => {
-    if (didOpen.current || !owner || !initialSlug || rows.length === 0) return;
+    if (didOpen.current || !owner) return;
+    if (createNew) { didOpen.current = true; open(null); return; }
+    if (!initialSlug || rows.length === 0) return;
     didOpen.current = true;
     const row = rows.find(row => row.kind === initialKind && row.slug === initialSlug);
     if (row) open(row);
     // Initial URL selection only; editing state is intentionally independent.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [owner, rows, initialKind, initialSlug]);
+  }, [owner, rows, initialKind, initialSlug, createNew]);
   useEffect(() => {
     if (!dirty) return;
     const unload = (e: BeforeUnloadEvent) => { e.preventDefault(); };
@@ -117,7 +130,7 @@ export default function ArticleEditor({ configured, initialKind, initialSlug }: 
   };
   async function login(e: FormEvent) {
     e.preventDefault(); setBusy(true); setError('');
-    try { await api('session', 'POST', { email, password }); setPassword(''); setOwner(true); setMessage(''); await reloadRows(); }
+    try { await api('session', 'POST', { email, password }); setPassword(''); setOwner(true); window.dispatchEvent(new Event('editor-session-change')); setMessage(''); await reloadRows(); }
     catch (e) { setError((e as Error).message); }
     finally { setBusy(false); }
   }
@@ -129,6 +142,7 @@ export default function ArticleEditor({ configured, initialKind, initialSlug }: 
         id: active?.id, version: active?.version, kind, slug, document: doc,
       });
       if (action === 'purge') { setEditing(false); setActive(null); try { sessionStorage.removeItem('demiz:editor-recovery'); } catch {} }
+      else if (action === 'trash') { setEditing(false); setActive(null); try { sessionStorage.removeItem('demiz:editor-recovery'); } catch {} }
       else { open(row); }
       // Update the local list immediately, even if a subsequent reload fails.
       setRows(current => action === 'purge' ? current.filter(r => r.id !== row.id) : [row, ...current.filter(r => r.id !== row.id)]);
@@ -141,6 +155,7 @@ export default function ArticleEditor({ configured, initialKind, initialSlug }: 
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a'); a.href = url; a.download = `${slug || 'untitled'}.md`; a.click(); URL.revokeObjectURL(url);
   }
+  const visibleRows = rows.filter(row => (filter === 'trash' ? !!row.deleted_at : !row.deleted_at && (filter === 'all' || (filter === 'published' ? !!row.published : !row.published))) && String(row.working.data.title).toLowerCase().includes(query.toLowerCase()));
   if (!configured) return <section className="editor-shell"><h1>文章管理</h1><p>文章管理尚未启用。</p><p>请先完成数据库初始化、导入现有文章，并配置站长账号和内容来源。操作说明见项目中的 EDITOR_SETUP.md。</p></section>;
   if (checking) return <p role="status">正在检查登录状态…</p>;
 
@@ -149,7 +164,7 @@ export default function ArticleEditor({ configured, initialKind, initialSlug }: 
       {owner && <button disabled={busy} onClick={async () => {
         if (!mayLeave()) return;
         setBusy(true);
-        try { await api('session', 'DELETE'); setOwner(false); setRows([]); setEditing(false); setDoc(blankDocument()); setActive(null); setRecovery(null); try { sessionStorage.removeItem('demiz:editor-recovery'); } catch {} }
+        try { await api('session', 'DELETE'); setOwner(false); window.dispatchEvent(new Event('editor-session-change')); setRows([]); setEditing(false); setDoc(blankDocument()); setActive(null); setRecovery(null); try { sessionStorage.removeItem('demiz:editor-recovery'); } catch {} }
         catch (e) { setError((e as Error).message); } finally { setBusy(false); }
       }}>退出登录</button>}
     </header>
@@ -170,7 +185,7 @@ export default function ArticleEditor({ configured, initialKind, initialSlug }: 
       </section>}
       <div className="editor-actions"><button disabled={busy} onClick={() => { if (mayLeave()) open(null); }}>＋ 新增文章</button>
         <button disabled={busy} onClick={async () => { setBusy(true); try { await reloadRows(); setMessage('列表已刷新，点击文章可打开最新版本。'); } catch (e) { setError((e as Error).message); } finally { setBusy(false); } }}>刷新列表</button>
-        <details><summary>重新登录</summary><form className="editor-login" onSubmit={login}>
+        <details className="editor-secondary"><summary>账号</summary><form className="editor-login" onSubmit={login}>
           <p>登录过期时可在此重新登录，当前输入会保留。</p>
           <label>邮箱<input type="email" autoComplete="username" required value={email} onChange={e => setEmail(e.target.value)} /></label>
           <label>密码<input type="password" autoComplete="current-password" required value={password} onChange={e => setPassword(e.target.value)} /></label>
@@ -181,55 +196,64 @@ export default function ArticleEditor({ configured, initialKind, initialSlug }: 
         <aside className="editor-list" aria-label="文章列表">
           <label>查找文章<input type="search" value={query} onChange={e => setQuery(e.target.value)} /></label>
           <label>状态<select value={filter} onChange={e => setFilter(e.target.value)}><option value="all">全部文章</option><option value="draft">草稿</option><option value="published">已发布</option><option value="trash">回收站</option></select></label>
-          <ul>{rows.filter(row => (filter === 'trash' ? !!row.deleted_at : !row.deleted_at && (filter === 'all' || (filter === 'published' ? !!row.published : !row.published))) && String(row.working.data.title).toLowerCase().includes(query.toLowerCase())).map(row =>
-            <li key={row.id}><button disabled={busy} aria-current={active?.id === row.id ? 'true' : undefined} onClick={() => { if (mayLeave()) open(row); }}>
-              <strong>{String(row.working.data.title)}</strong><small>{row.kind === 'blog' ? '笔记' : '手账'} · {row.deleted_at ? '回收站' : row.published ? '已发布' : '草稿'} · v{row.version}</small>
-            </button></li>)}</ul>
-          {rows.length === 0 && <p>还没有文章。可以新增文章，或先导入已有内容。</p>}
+          <ul>{visibleRows.map(row =>
+            <li key={row.id} className="editor-list-row"><button disabled={busy} aria-current={active?.id === row.id ? 'true' : undefined} onClick={() => { if (mayLeave()) open(row); }}>
+              <strong>{String(row.working.data.title)}</strong><small>{row.kind === 'blog' ? '笔记' : '生活记录'} · {row.deleted_at ? '回收站' : row.published ? '已发布' : '草稿'}</small>
+            </button><button className="editor-delete" disabled={busy} aria-label={'删除文章：' + String(row.working.data.title)} onClick={() => {
+              if (active?.id !== row.id) { if (!mayLeave()) return; open(row); }
+              setConfirmation(row.deleted_at ? 'purge' : 'trash');
+            }}>{row.deleted_at ? '永久删除' : '删除'}</button></li>)}</ul>
+          {visibleRows.length === 0 && <p>{filter === 'trash' ? '回收站为空。' : query ? '没有找到匹配的文章。' : '暂无文章，点击「新增文章」开始写作。'}</p>}
         </aside>
         <div className="editor-main">
           {!editing ? <p className="editor-empty">选择一篇文章，或开始新的记录。</p> : <>
             <div className="editor-actions"><span>{dirty ? '有未保存的修改' : active ? '内容已保存' : '尚未保存'}{active?.published ? ' · 有公开版本' : ' · 私有草稿'}</span>
-              <button type="button" onClick={exportInput}>导出当前 Markdown</button>
+              <details className="editor-secondary"><summary>更多</summary><button type="button" onClick={exportInput}>导出 Markdown</button></details>
               {active?.published && <a href={`/${locale}/${kind}/${slug}`} target="_blank" rel="noreferrer">查看公开文章 ↗</a>}
             </div>
-            <form onSubmit={e => { e.preventDefault(); void mutate('save'); }}>
-              <fieldset disabled={busy || !!active?.deleted_at}>
-                <div className="editor-fields">
-                  <label>类型<select value={kind} disabled={!!active} onChange={e => setKind(e.target.value as 'blog' | 'life')}><option value="blog">魔法笔记</option><option value="life">日常手账</option></select></label>
-                  <label>短链接<input required pattern="[a-z0-9]+(-[a-z0-9]+)*" maxLength={120} value={slug} disabled={!!active} onChange={e => setSlug(e.target.value)} /><small>保存后固定，保持文章地址稳定。</small></label>
-                  <label className="editor-wide">标题<input required maxLength={100} value={String(doc.data.title ?? '')} onChange={e => change('title', e.target.value)} /></label>
-                  <label className="editor-wide">摘要<textarea required maxLength={240} rows={2} value={String(doc.data.description ?? '')} onChange={e => change('description', e.target.value)} /></label>
-                  <label>发布日期<input type="date" required value={String(doc.data.published ?? '').slice(0, 10)} onChange={e => change('published', e.target.value)} /></label>
-                  {kind === 'blog' && <label>分类<select value={String(doc.data.category ?? 'other')} onChange={e => change('category', e.target.value)}>{categories.map(c => <option key={c.slug} value={c.slug}>{c.zh}</option>)}</select></label>}
-                  <label className="editor-wide">标签（用英文逗号分隔）<input value={Array.isArray(doc.data.tags) ? doc.data.tags.join(',') : ''} onChange={e => change('tags', e.target.value.split(','))} /></label>
-                  <label>英文标题<input maxLength={100} value={String(doc.data.titleEn ?? '')} onChange={e => change('titleEn', e.target.value || undefined)} /></label>
-                  <label>英文摘要<input maxLength={240} value={String(doc.data.descriptionEn ?? '')} onChange={e => change('descriptionEn', e.target.value || undefined)} /></label>
-                  <label className="editor-wide">封面图片路径<input value={String(doc.data.cover ?? '')} onChange={e => change('cover', e.target.value || undefined)} /></label>
-                </div>
-                <label>Markdown 正文<textarea className="editor-body" spellCheck={false} value={doc.body} onChange={e => { setDoc({ ...doc, body: e.target.value }); setHtml(null); }} /></label>
-                <div className="editor-actions">
-                  <button type="submit">{busy ? '处理中…' : '保存草稿'}</button>
-                  <button type="button" disabled={!active} onClick={() => void mutate('publish')}>发布当前内容</button>
-                  <button type="button" onClick={async () => {
+                <div className="editor-actions editor-toolbar">
+                  <button form="article-editor-form" disabled={busy || !!active?.deleted_at} type="submit">{busy ? '处理中…' : '保存草稿'}</button>
+                  <button type="button" disabled={busy || !active || !!active?.deleted_at} onClick={() => void mutate('publish')}>发布当前内容</button>
+                  <button type="button" disabled={busy} onClick={async () => {
                     setBusy(true); setError('');
                     try { const result = await api('preview', 'POST', doc); setHtml(result.html); } catch (e) { setError((e as Error).message); } finally { setBusy(false); }
                   }}>预览</button>
                 </div>
                 {!active && <small>首次保存后即可发布。</small>}
+
+            <form id="article-editor-form" onInvalidCapture={() => setSettingsOpen(true)} onSubmit={e => { e.preventDefault(); void mutate('save'); }}>
+              <fieldset disabled={busy || !!active?.deleted_at}>
+                  <label className="editor-wide">标题<input required maxLength={100} value={String(doc.data.title ?? '')} onChange={e => change('title', e.target.value)} /></label>
+                <label>Markdown 正文<textarea className="editor-body" spellCheck={false} value={doc.body} onChange={e => { setDoc({ ...doc, body: e.target.value }); setHtml(null); }} /></label>
+                <details className="editor-settings" open={settingsOpen} onToggle={e => setSettingsOpen(e.currentTarget.open)}><summary>文章设置 <small>摘要、分类、标签与网址</small></summary>
+                <div className="editor-fields">
+                  <label>类型<select value={kind} disabled={!!active} onChange={e => setKind(e.target.value as 'blog' | 'life')}><option value="blog">魔法笔记</option><option value="life">日常手账</option></select></label>
+                  <label>短链接<input required pattern="[a-z0-9]+(-[a-z0-9]+)*" maxLength={120} value={slug} disabled={!!active} onChange={e => setSlug(e.target.value)} /><small>保存后固定，保持文章地址稳定。</small></label>
+                  <label className="editor-wide">摘要<textarea required maxLength={240} rows={2} value={String(doc.data.description ?? '')} onChange={e => change('description', e.target.value)} /></label>
+                  <label>发布日期<input type="date" required value={String(doc.data.published ?? '').slice(0, 10)} onChange={e => change('published', e.target.value)} /></label>
+                  {kind === 'blog' && <label>分类<select value={String(doc.data.category ?? 'other')} onChange={e => change('category', e.target.value)}>{categories.map(c => <option key={c.slug} value={c.slug}>{c.zh}</option>)}</select></label>}
+                  <label className="editor-wide">标签（用英文逗号分隔）<input value={Array.isArray(doc.data.tags) ? doc.data.tags.join(',') : ''} onChange={e => change('tags', e.target.value.split(','))} /></label>
+                  <details className="editor-wide editor-secondary"><summary>更多选项</summary><div className="editor-fields">
+                  <label>英文标题<input maxLength={100} value={String(doc.data.titleEn ?? '')} onChange={e => change('titleEn', e.target.value || undefined)} /></label>
+                  <label>英文摘要<input maxLength={240} value={String(doc.data.descriptionEn ?? '')} onChange={e => change('descriptionEn', e.target.value || undefined)} /></label>
+                  <label className="editor-wide">封面图片路径<input value={String(doc.data.cover ?? '')} onChange={e => change('cover', e.target.value || undefined)} /></label>
+                  </div></details>
+                </div>
+                </details>
               </fieldset>
             </form>
             {html !== null && <section aria-label="草稿预览" className="editor-preview"><h2>{String(doc.data.title)}</h2><p>{String(doc.data.description)}</p><div className="article-content" dangerouslySetInnerHTML={{ __html: html }} /></section>}
             {active && <div className="editor-actions editor-danger">
               {active.deleted_at ? <><button disabled={busy} onClick={() => void mutate('restore')}>恢复为草稿</button><button disabled={busy} onClick={() => setConfirmation('purge')}>永久删除</button></> : <>
                 {active.published && <button disabled={busy} onClick={() => setConfirmation('unpublish')}>撤回为草稿</button>}
-                <button disabled={busy} onClick={() => setConfirmation('trash')}>移入回收站</button>
+                <button disabled={busy} onClick={() => setConfirmation('trash')}>删除文章</button>
               </>}
             </div>}
-            {confirmation && <section className="editor-confirm" role="alert" aria-label="确认文章操作">
-              <p>确定{confirmation === 'purge' ? '永久删除' : confirmation === 'trash' ? '移入回收站' : '撤回'}《{String(active?.working.data.title)}》？{confirmation === 'purge' ? '此操作无法恢复。' : '公开页面将不再展示这篇文章。'}{dirty && '未保存的输入将被丢弃，可先取消并导出。'}</p>
-              <button disabled={busy} onClick={() => void mutate(confirmation)}>确认操作</button><button disabled={busy} onClick={() => setConfirmation(null)}>取消</button>
-            </section>}
+            <dialog ref={confirmDialog} className="editor-confirm" aria-labelledby="delete-heading" onCancel={() => setConfirmation(null)}>
+              <h2 id="delete-heading">{confirmation === 'purge' ? '永久删除文章' : confirmation === 'trash' ? '删除文章' : '撤回文章'}</h2>
+              <p>确定{confirmation === 'purge' ? '永久删除' : confirmation === 'trash' ? '移入回收站' : '撤回'}《{String(active?.working.data.title)}》？{confirmation === 'purge' ? '此操作无法恢复。' : confirmation === 'trash' ? '文章将移入回收站，可以恢复；公开页面将不再展示。' : '公开页面将不再展示这篇文章。'}{dirty && '未保存的输入将被丢弃，可先取消并导出。'}</p>
+              <button disabled={busy} onClick={() => confirmation && void mutate(confirmation)}>确认{confirmation === 'unpublish' ? '撤回' : '删除'}</button><button data-cancel disabled={busy} onClick={() => setConfirmation(null)}>取消</button>
+            </dialog>
           </>}
         </div>
       </div>

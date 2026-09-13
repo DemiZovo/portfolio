@@ -11,6 +11,7 @@ import ArticleReaderTools from '@/components/ArticleReaderTools';
 import ArticleHeader from '@/components/ArticleHeader';
 import ArticleEnding from '@/components/ArticleEnding';
 import JsonLd from '@/components/JsonLd';
+import { ArticleEditLink } from '@/components/OwnerTools';
 import { routing } from '@/i18n/routing';
 
 interface Props {
@@ -83,6 +84,7 @@ export default async function LifeSlugPage({ params }: Props) {
             updatedAt={entry.data.updated}
             tags={entry.data.tags}
           />
+          <ArticleEditLink kind="life" slug={entry.data.slug} />
           <div className="article-content" dangerouslySetInnerHTML={{ __html: html }} />
           <ArticleEnding seed={entry.data.slug} />
           <ArticleNavigation

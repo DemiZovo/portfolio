@@ -8,7 +8,9 @@ const nextConfig: NextConfig = {
   async redirects() {
     const redirects: { source: string; destination: string; permanent: boolean }[] = [
       { source: '/', destination: '/zh', permanent: false },
-      { source: '/projects', destination: '/zh/collection', permanent: true },
+      { source: '/projects', destination: '/zh/workshop', permanent: true },
+      { source: '/collection', destination: '/zh/workshop', permanent: true },
+      { source: '/:locale(zh|en)/collection', destination: '/:locale/workshop', permanent: true },
       { source: '/categories', destination: '/zh/blog', permanent: true },
     ];
     for (const category of categories) {

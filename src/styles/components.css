@@ -1,4 +1,4 @@
-/* Component-scoped styles ported from .astro <style> blocks.
+/* Shared component styles for the Next.js application.
    Imported after tokens/global/features/sakura in app/layout.tsx. */
 
 /* 屏幕阅读器专用：视觉隐藏但保留可访问性。 */
@@ -284,8 +284,6 @@
 }
 
 /* ---- Collection ---- */
-.collection-empty{max-width:var(--container-narrow);margin:0 auto;padding:var(--space-8);text-align:center;color:var(--muted);border:1px dashed var(--border);border-radius:var(--radius-md)}
-.collection-empty-card{min-height:13rem;place-items:center;text-align:center;color:var(--muted)}
 
 /* ---- CopyEmail ---- */
 .copy-email__button{display:inline-flex;align-items:center;gap:.4rem;min-height:2.5rem;padding:.4rem .7rem;border:1px solid var(--border);border-radius:.65rem;background:color-mix(in srgb,var(--accent) 6%,var(--surface));color:var(--accent);font:inherit;cursor:pointer}

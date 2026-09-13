@@ -135,7 +135,7 @@ export default function Header() {
               <nav className="mobile-menu__panel" aria-label={t('nav.main')}>
                 <Link href="/" onClick={closeMenu} aria-current={current('/') ? 'page' : undefined}>{t('nav.home')}</Link>
                 <Link href="/blog/" onClick={closeMenu} aria-current={current('/blog/') ? 'page' : undefined}>{t('nav.blog')}</Link>
-                <Link href="/collection/" onClick={closeMenu} aria-current={current('/collection/') ? 'page' : undefined}>{t('nav.collection')}</Link>
+                <Link href="/workshop/" onClick={closeMenu} aria-current={current('/workshop/') ? 'page' : undefined}>{t('nav.workshop')}</Link>
                 <Link href="/life/" onClick={closeMenu} aria-current={current('/life/') ? 'page' : undefined}>{t('nav.life')}</Link>
                 <Link href="/archives/" onClick={closeMenu} aria-current={current('/archives/') ? 'page' : undefined}>{t('nav.archives')}</Link>
                 <Link href="/about/" onClick={closeMenu} aria-current={current('/about/') ? 'page' : undefined}>{t('nav.about')}</Link>
@@ -150,7 +150,7 @@ export default function Header() {
       <nav className="mobile-nav" aria-label={t('nav.main')}>
         <Link href="/" aria-current={current('/') ? 'page' : undefined}>{t('nav.home')}</Link>
         <Link href="/blog/" aria-current={current('/blog/') ? 'page' : undefined}>{t('nav.blog')}</Link>
-        <Link href="/collection/" aria-current={current('/collection/') ? 'page' : undefined}>{t('nav.collection')}</Link>
+        <Link href="/workshop/" aria-current={current('/workshop/') ? 'page' : undefined}>{t('nav.workshop')}</Link>
         <Link href="/life/" aria-current={current('/life/') ? 'page' : undefined}>{t('nav.life')}</Link>
         <Link href="/archives/" aria-current={current('/archives/') ? 'page' : undefined}>{t('nav.archives')}</Link>
         <Link href="/about/" aria-current={current('/about/') ? 'page' : undefined}>{t('nav.about')}</Link>
