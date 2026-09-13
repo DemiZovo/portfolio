@@ -20,7 +20,6 @@ import BodySection from '@/components/BodySection';
 import Analytics from '@/components/Analytics';
 import PerformanceInsights from '@/components/PerformanceInsights';
 import JsonLd from '@/components/JsonLd';
-import OwnerTools, { OwnerProvider } from '@/components/OwnerTools';
 import { siteConfig } from '@/config/site';
 import { siteUrl } from '@/lib/site';
 import { routing, type Locale } from '@/i18n/routing';
@@ -89,13 +88,12 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
           <a className="skip-link" href="#main-content">{t('skipToContent')}</a>
           <MagicEffects />
           <MagicScrollEffects />
-          <OwnerProvider enabled={process.env.CONTENT_SOURCE === 'supabase'}><div className="page-shell">
+          <div className="page-shell">
             <NavWheel />
             <Header />
-            {process.env.CONTENT_SOURCE === 'supabase' && <OwnerTools />}
             <main id="main-content" className="site-main">{children}</main>
             <Footer />
-          </div></OwnerProvider>
+          </div>
           <ReadMarkers />
         </NextIntlClientProvider>
         <Analytics />

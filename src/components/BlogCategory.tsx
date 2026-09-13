@@ -3,7 +3,6 @@ import type { CategoryWithCount } from '@/lib/categories';
 import { getBlogByCategory } from '@/lib/categories';
 import { Link } from '@/i18n/navigation';
 import ArticleRow from './ArticleRow';
-import { ArticleEditLink } from './OwnerTools';
 
 interface Props {
   category: CategoryWithCount;
@@ -24,7 +23,6 @@ export default async function BlogCategory({ category }: Props) {
         <p><Link href="/blog/">← {t('title')}</Link></p>
         <p className="eyebrow">✦ {category.card}</p>
         <h1 className="cat-head__title">{category.name}</h1>
-        <ArticleEditLink kind="blog" category={category.slug} />
         <p className="cat-head__zh">{category.zh}</p>
         <p className="cat-head__desc">{category.description}</p>
         <p className="cat-head__count">{entries.length} note{entries.length === 1 ? '' : 's'}</p>

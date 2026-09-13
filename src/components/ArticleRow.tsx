@@ -4,7 +4,6 @@ import { entryPath } from '@/lib/content';
 import { entryDescription, entryTitle } from '@/lib/localize';
 import { categoryLabel } from '@/lib/categories';
 import { Link } from '@/i18n/navigation';
-import { ArticleEditLink } from './OwnerTools';
 
 interface Props {
   entry: BlogEntry;
@@ -34,7 +33,6 @@ export default async function ArticleRow({ entry, showCategory = false }: Props)
             <span className="article-row__tags">{tags.slice(0, 3).map((tag) => <Link key={tag} href={`/tags/${encodeURIComponent(tag)}/` as never}>{tag}</Link>)}</span>
           )}
         </p>
-        <ArticleEditLink kind="blog" slug={entry.data.slug} />
       </div>
       <span className="article-row__arrow" aria-hidden="true">↗</span>
     </article>

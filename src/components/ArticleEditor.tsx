@@ -134,7 +134,7 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
   };
   async function login(e: FormEvent) {
     e.preventDefault(); setBusy(true); setError('');
-    try { await api('session', 'POST', { email, password }); setPassword(''); setOwner(true); window.dispatchEvent(new Event('editor-session-change')); setMessage(''); if (!manageProjects) await reloadRows(); }
+    try { await api('session', 'POST', { email, password }); setPassword(''); setOwner(true); setMessage(''); if (!manageProjects) await reloadRows(); }
     catch (e) { setError((e as Error).message); }
     finally { setBusy(false); }
   }
@@ -168,7 +168,7 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
       {owner && <button disabled={busy} onClick={async () => {
         if (!mayLeave()) return;
         setBusy(true);
-        try { await api('session', 'DELETE'); setOwner(false); window.dispatchEvent(new Event('editor-session-change')); setRows([]); setEditing(false); setDoc(blankDocument()); setActive(null); setRecovery(null); try { sessionStorage.removeItem('demiz:editor-recovery'); } catch {} }
+        try { await api('session', 'DELETE'); setOwner(false); setRows([]); setEditing(false); setDoc(blankDocument()); setActive(null); setRecovery(null); try { sessionStorage.removeItem('demiz:editor-recovery'); } catch {} }
         catch (e) { setError((e as Error).message); } finally { setBusy(false); }
       }}>退出登录</button>}
     </header>
