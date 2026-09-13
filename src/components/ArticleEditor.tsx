@@ -8,15 +8,8 @@ import './article-editor.css';
 import ProjectEditor from './ProjectEditor';
 import { Link } from '@/i18n/navigation';
 
-async function api(path: string, method = 'GET', value?: unknown) {
-  const response = await fetch(`/api/editor/${path}`, {
-    method, cache: 'no-store', headers: { 'Content-Type': 'application/json' },
-    ...(value === undefined ? {} : { body: JSON.stringify(value) }),
-  });
-  const result = await response.json();
-  if (!response.ok) throw new Error(result.error || '请求失败，请重试。');
-  return result;
-}
+import { editorRequest as api } from '@/lib/editor-client';
+
 const blankDocument = (): ArticleDocument => ({ data: {
   title: '', description: '', published: new Date().toISOString().slice(0, 10),
   category: 'other', tags: [], featured: false, toc: true, status: 'growing',
@@ -27,6 +20,8 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
 }) {
   const locale = useLocale();
   const [owner, setOwner] = useState(false);
+  const [authRequired, setAuthRequired] = useState(false);
+  useEffect(() => { const onExpired = () => setAuthRequired(true); window.addEventListener('writer-auth-required', onExpired); return () => window.removeEventListener('writer-auth-required', onExpired); }, []);
   const [projectDirty, setProjectDirty] = useState(false);
   const [checking, setChecking] = useState(configured);
   const [busy, setBusy] = useState(false);
@@ -134,7 +129,7 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
   };
   async function login(e: FormEvent) {
     e.preventDefault(); setBusy(true); setError('');
-    try { await api('session', 'POST', { email, password }); setPassword(''); setOwner(true); setMessage(''); if (!manageProjects) await reloadRows(); }
+    try { await api('session', 'POST', { email, password }); setPassword(''); setOwner(true); setAuthRequired(false); setMessage(''); if (!manageProjects) await reloadRows(); }
     catch (e) { setError((e as Error).message); }
     finally { setBusy(false); }
   }
@@ -175,18 +170,13 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
     <nav className="editor-actions" aria-label="Writer 管理栏目"><Link href="/write" aria-current={!manageProjects ? 'page' : undefined}>文章管理</Link><Link href="/write?view=projects" aria-current={manageProjects ? 'page' : undefined}>项目管理</Link></nav>
     {message && <p role="status" className="editor-message">{message}</p>}
     {error && <p role="alert" className="editor-error">{error}</p>}
-    {!owner ? <form onSubmit={login} className="editor-login">
+    {(!owner || authRequired) && <form onSubmit={login} className="editor-login">
       <p>使用站长账号登录，继续写下新的记录。</p>
       <label>邮箱<input type="email" autoComplete="username" required value={email} onChange={e => setEmail(e.target.value)} /></label>
       <label>密码<input type="password" autoComplete="current-password" required value={password} onChange={e => setPassword(e.target.value)} /></label>
       <button disabled={busy} type="submit">{busy ? '正在登录…' : '登录'}</button>
-    </form> : manageProjects ? <>
-      <details className="editor-secondary"><summary>账号 / 重新登录</summary><form className="editor-login" onSubmit={login}>
-        <p>登录过期时在此重新登录，项目输入会保留。</p>
-        <label>邮箱<input type="email" autoComplete="username" required value={email} onChange={e => setEmail(e.target.value)} /></label>
-        <label>密码<input type="password" autoComplete="current-password" required value={password} onChange={e => setPassword(e.target.value)} /></label>
-        <button disabled={busy}>重新登录</button>
-      </form></details>
+    </form>}
+    {owner && <div hidden={authRequired}>{manageProjects ? <>
       <ProjectEditor onDirty={setProjectDirty} />
     </> : <>
       {recovery && <section className="editor-confirm" role="status"><p>发现本标签页未保存的内容：{String(recovery.doc.data.title || '未命名文章')}。</p>
@@ -198,17 +188,11 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
       </section>}
       <div className="editor-actions"><button disabled={busy} onClick={() => { if (mayLeave()) open(null); }}>＋ 新增文章</button>
         <button disabled={busy} onClick={async () => { setBusy(true); try { await reloadRows(); setMessage('列表已刷新，点击文章可打开最新版本。'); } catch (e) { setError((e as Error).message); } finally { setBusy(false); } }}>刷新列表</button>
-        <details className="editor-secondary"><summary>账号</summary><form className="editor-login" onSubmit={login}>
-          <p>登录过期时可在此重新登录，当前输入会保留。</p>
-          <label>邮箱<input type="email" autoComplete="username" required value={email} onChange={e => setEmail(e.target.value)} /></label>
-          <label>密码<input type="password" autoComplete="current-password" required value={password} onChange={e => setPassword(e.target.value)} /></label>
-          <button disabled={busy}>重新登录</button>
-        </form></details>
-      </div>
-      <div className="editor-workspace">
+        </div>
+      <div className={`editor-workspace ${editing ? 'editor-workspace--editing' : 'editor-workspace--browse'}`}>
         <aside className="editor-list" aria-label="文章列表">
-          <label>查找文章<input type="search" value={query} onChange={e => setQuery(e.target.value)} /></label>
-          <label>状态<select value={filter} onChange={e => setFilter(e.target.value)}><option value="all">全部文章</option><option value="draft">草稿</option><option value="published">已发布</option><option value="trash">回收站</option></select></label>
+          <div className="editor-list-filters"><label>查找文章<input type="search" value={query} onChange={e => setQuery(e.target.value)} /></label>
+          <label>状态<select value={filter} onChange={e => setFilter(e.target.value)}><option value="all">全部文章</option><option value="draft">草稿</option><option value="published">已发布</option><option value="trash">回收站</option></select></label></div>
           <ul>{visibleRows.map(row =>
             <li key={row.id} className="editor-list-row"><button disabled={busy} aria-current={active?.id === row.id ? 'true' : undefined} onClick={() => { if (mayLeave()) open(row); }}>
               <strong>{String(row.working.data.title)}</strong><small>{row.kind === 'blog' ? '笔记' : '生活记录'} · {row.deleted_at ? '回收站' : row.published ? '已发布' : '草稿'}</small>
@@ -218,9 +202,9 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
             }}>{row.deleted_at ? '永久删除' : '删除'}</button></li>)}</ul>
           {visibleRows.length === 0 && <p>{filter === 'trash' ? '回收站为空。' : query ? '没有找到匹配的文章。' : '暂无文章，点击「新增文章」开始写作。'}</p>}
         </aside>
-        <div className="editor-main">
+        <div className="editor-main" hidden={!editing}>
           {!editing ? <p className="editor-empty">选择一篇文章，或开始新的记录。</p> : <>
-            <div className="editor-actions"><span>{dirty ? '有未保存的修改' : active ? '内容已保存' : '尚未保存'}{active?.published ? ' · 有公开版本' : ' · 私有草稿'}</span>
+            <div className="editor-actions"><button type="button" disabled={busy} onClick={() => { if (mayLeave()) { setEditing(false); setActive(null); setHtml(null); try { sessionStorage.removeItem('demiz:editor-recovery'); } catch {} } }}>← 返回文章列表</button><span>{dirty ? '有未保存的修改' : active ? '内容已保存' : '尚未保存'}{active?.published ? ' · 有公开版本' : ' · 私有草稿'}</span>
               <details className="editor-secondary"><summary>更多</summary><button type="button" onClick={exportInput}>导出 Markdown</button></details>
               {active?.published && <a href={`/${locale}/${kind}/${slug}`} target="_blank" rel="noreferrer">查看公开文章 ↗</a>}
             </div>
@@ -270,6 +254,6 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
           </>}
         </div>
       </div>
-    </>}
+    </>}</div>}
   </section>;
 }

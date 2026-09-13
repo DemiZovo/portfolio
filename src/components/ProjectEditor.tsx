@@ -3,13 +3,11 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { useLocale } from 'next-intl';
 import { projectsSchema, type WorkshopProject, type ProjectSnapshot } from '@/lib/workshop-model';
 import styles from './project-editor.module.css';
+import { editorRequest } from '@/lib/editor-client';
 
 const blank = (): WorkshopProject => ({ name: '', url: 'https://github.com/', description: { zh: '', en: '' }, language: '', art: 'portfolio', symbol: '✧', coverLabel: '', coverFooter: '' });
 async function request(value?: ProjectSnapshot): Promise<ProjectSnapshot> {
-  const response = await fetch('/api/editor/projects', { method: value ? 'POST' : 'GET', cache: 'no-store', headers: { 'Content-Type': 'application/json' }, ...(value ? { body: JSON.stringify(value) } : {}) });
-  const body = await response.json();
-  if (!response.ok) throw new Error(body.error || '无法读取项目，请重试。');
-  return body;
+  return editorRequest('projects', value ? 'POST' : 'GET', value);
 }
 
 export default function ProjectEditor({ onDirty }: { onDirty: (dirty: boolean) => void }) {

@@ -37,8 +37,9 @@ export async function startFixture(port = 54329) {
     const body = chunks.length ? JSON.parse(Buffer.concat(chunks).toString()) : {};
     try {
       if (url.pathname === '/auth/v1/token') {
+        if (url.searchParams.get('grant_type') === 'refresh_token') return send(body.refresh_token === 'fixture-refresh' ? 200 : 401, { access_token: 'fixture-owner', refresh_token: 'fixture-refresh', expires_in: 3600 });
         if (body.email !== 'owner@example.test' || body.password !== 'local-test-only') return send(401, {});
-        return send(200, { access_token: 'fixture-owner', expires_in: 3600 });
+        return send(200, { access_token: 'fixture-owner', refresh_token: 'fixture-refresh', expires_in: 3600 });
       }
       if (url.pathname === '/auth/v1/user') return send(token === 'fixture-owner' || token === 'fixture-visitor' ? 200 : 401, { id: token === 'fixture-owner' ? owner : visitor });
       if (url.pathname === '/auth/v1/logout') return send(200, {});

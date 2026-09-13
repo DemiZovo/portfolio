@@ -17,3 +17,24 @@
 .editor-shell dialog.editor-confirm{width:min(480px,calc(100vw - 2rem));max-height:80vh;overflow:auto;padding:1.5rem;background:var(--surface);color:var(--text);border:1px solid var(--border)}
 .editor-shell dialog.editor-confirm::backdrop{background:rgb(0 0 0 / .45)}.editor-confirm h2{font-size:1.2rem}.editor-confirm button{min-height:44px}
 @media(max-width:760px){.editor-toolbar{top:8rem}.editor-list ul{max-height:180px}.editor-heading .eyebrow{display:none}.editor-settings summary small{display:block;margin:0}}
+
+/* Browse first; reserve the split workspace for an open article. */
+.editor-workspace--browse { grid-template-columns: minmax(0,1fr); }
+.editor-workspace--editing { grid-template-columns: minmax(280px,32%) minmax(0,1fr); gap: var(--space-5); }
+.editor-list { min-width: 0; }
+.editor-list-filters { display: grid; gap: var(--space-4); }
+.editor-workspace--browse .editor-list-filters { grid-template-columns: minmax(0,1fr) minmax(160px,240px); align-items: end; }
+.editor-workspace--browse .editor-list ul { max-height: none; gap: 0; border-top: 1px solid var(--border); }
+.editor-workspace--browse .editor-list-row { padding-block: var(--space-3); border-bottom: 1px solid var(--border); gap: var(--space-5); }
+.editor-workspace--browse .editor-list-row > button:first-child { border-color: transparent; padding: var(--space-3) var(--space-4); }
+.editor-workspace--browse .editor-list-row > button:first-child:hover { background: var(--surface-soft); }
+.editor-workspace--browse .editor-list-row strong { font-weight: 500; }
+.editor-workspace--editing .editor-list-row { grid-template-columns: minmax(0,1fr); gap: 0; border: 1px solid var(--border); border-radius: var(--radius-xs); padding: var(--space-2); }
+.editor-workspace--editing .editor-list-row > button:first-child { border-color: transparent; }
+.editor-workspace--editing .editor-list-row .editor-delete { justify-self: end; min-height: 36px; padding: var(--space-1) var(--space-3); }
+.editor-heading { padding-bottom: var(--space-4); border-bottom: 1px solid var(--border); }
+.editor-shell nav[aria-label="Writer 管理栏目"] { gap: var(--space-2); margin-block: var(--space-5); }
+.editor-shell nav[aria-label="Writer 管理栏目"] a { padding: var(--space-2) var(--space-4); border-radius: var(--radius-xs); text-decoration: none; }
+.editor-shell nav[aria-label="Writer 管理栏目"] a[aria-current=page] { background: var(--surface-soft); color: var(--wine); box-shadow: inset 0 -2px var(--accent); }
+.editor-main[hidden] { display: none; }
+@media(max-width:760px) { .editor-workspace--editing { grid-template-columns: minmax(0,1fr); }.editor-workspace--editing .editor-list { display: none; }.editor-workspace--browse .editor-list-filters { grid-template-columns: minmax(0,1fr); }.editor-workspace--browse .editor-list-row { gap: var(--space-2); }.editor-workspace--browse .editor-list-row > button:first-child { padding-inline: var(--space-2); } }
