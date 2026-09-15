@@ -42,7 +42,7 @@
   "home": {
     "symbolLoopAria": "Magic symbols loop",
     "intro": "I'm <highlight>{name}</highlight>, nice to meet you! 0v0\nStarting from Hello World, exploring the world.",
-    "readBlog": "Open the notes",
+    "aboutMe": "About me",
     "featured": "Featured",
     "featuredTitle": "Featured",
     "featuredLabel": "Featured · ",

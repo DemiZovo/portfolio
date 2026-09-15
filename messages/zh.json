@@ -42,7 +42,7 @@
   "home": {
     "symbolLoopAria": "魔法符号循环展示",
     "intro": "我是 <highlight>{name}</highlight> , Nice to meet you ! 0v0\n从Hello World开始，开启探索世界的旅程。",
-    "readBlog": "翻开魔法笔记",
+    "aboutMe": "关于我",
     "featured": "Featured",
     "featuredTitle": "精选文章",
     "featuredLabel": "精选 · ",
