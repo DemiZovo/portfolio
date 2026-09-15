@@ -316,3 +316,11 @@ body:not([data-section="home"]) .sparkle-layer {
 .route-loading{min-height:40vh;display:grid;place-content:center;text-align:center;color:var(--muted)}
 .route-loading span{font-size:2rem;color:var(--accent)}
 .navigation-pending{position:fixed;left:1rem;bottom:1rem;padding:.5rem .8rem;background:var(--surface);border:1px solid var(--border);border-radius:.5rem;font-size:.8rem}
+
+/* Personal introduction shared directly in the home hero. */
+.hero-about { display: flex; align-items: flex-start; gap: 1rem; margin: 1.4rem 0; max-width: 42rem; }
+.hero-about-avatar { width: 4.5rem; height: 4.5rem; flex: 0 0 4.5rem; object-fit: cover; border-radius: 50%; border: 1px solid var(--border); }
+.hero-about p { margin: 0 0 .65rem; font-size: .95rem; line-height: 1.85; color: var(--muted); }
+.hero-about .hero-about-eyebrow { color: var(--wine); font-size: .72rem; letter-spacing: .1em; }
+.hero-links > p { display: flex; flex-wrap: wrap; align-items: flex-start; gap: .65rem; }
+@media (max-width: 620px) { .hero-about { gap: .8rem; } .hero-about-avatar { width: 3.25rem; height: 3.25rem; flex-basis: 3.25rem; } }

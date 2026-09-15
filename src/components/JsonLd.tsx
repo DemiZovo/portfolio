@@ -25,7 +25,7 @@ export default function JsonLd({ type, title, description, image, url, published
           inLanguage: siteConfig.locale,
           datePublished: publishedTime,
           dateModified: updatedTime ?? publishedTime,
-          author: { '@type': 'Person', name: siteConfig.author.name, url: siteUrl('/zh/about') },
+          author: { '@type': 'Person', name: siteConfig.author.name, url: siteUrl('/zh') },
           keywords: tags.join(', '),
         }
       : {

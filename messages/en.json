@@ -12,7 +12,6 @@
     "blog": "Notes",
     "life": "Journal",
     "archives": "Archive",
-    "about": "About",
     "guestbook": "Guestbook",
     "footer": "Footer navigation",
     "main": "Main navigation",
@@ -42,7 +41,9 @@
   "home": {
     "symbolLoopAria": "Magic symbols loop",
     "intro": "I'm <highlight>{name}</highlight>, nice to meet you! 0v0\nStarting from Hello World, exploring the world.",
-    "aboutMe": "About me",
+    "bio": "I keep learning to code like practicing magic, and carefully collect the small things in ordinary life.",
+    "siteNote": "A place for new tech, engineering practice and the occasional bug that acts up — plus daily records beyond tech.",
+    "avatarAlt": "DemiZ's avatar",
     "featured": "Featured",
     "featuredTitle": "Featured",
     "featuredLabel": "Featured · ",
@@ -95,16 +96,6 @@
     "eyebrow": "Card Index",
     "heroDesc": "Rediscover notes and daily life through keywords.",
     "tagTitle": "Tag: {tag}"
-  },
-  "about": {
-    "title": "About",
-    "eyebrow": "Ordinary Magic Learner",
-    "intro": "Hi, I'm {name}. I keep learning to code like practicing magic, and carefully collect the small things in ordinary life.",
-    "whatTitle": "What's recorded here",
-    "whatDesc": "A place for new tech, engineering practice and the occasional bug that acts up — plus daily records beyond tech.",
-    "contact": "Contact",
-    "guestbook": "Magic Wish Book",
-    "avatarAlt": "DemiZ's avatar"
   },
   "guestbook": {
     "title": "Magic Wish Book",

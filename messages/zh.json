@@ -12,7 +12,6 @@
     "blog": "魔法笔记",
     "life": "日常手账",
     "archives": "归档",
-    "about": "关于",
     "guestbook": "留言板",
     "footer": "页脚导航",
     "main": "主导航",
@@ -42,7 +41,9 @@
   "home": {
     "symbolLoopAria": "魔法符号循环展示",
     "intro": "我是 <highlight>{name}</highlight> , Nice to meet you ! 0v0\n从Hello World开始，开启探索世界的旅程。",
-    "aboutMe": "关于我",
+    "bio": "像练习魔法一样持续学习代码，也认真收藏普通生活里的小事。",
+    "siteNote": "这里用于整理新技术、工程实践和偶尔捣乱的 bug，也保存技术之外的日常记录。",
+    "avatarAlt": "DemiZ 的头像",
     "featured": "Featured",
     "featuredTitle": "精选文章",
     "featuredLabel": "精选 · ",
@@ -95,16 +96,6 @@
     "eyebrow": "Card Index",
     "heroDesc": "从关键词重新发现笔记与日常。",
     "tagTitle": "标签：{tag}"
-  },
-  "about": {
-    "title": "关于我",
-    "eyebrow": "Ordinary Magic Learner",
-    "intro": "你好，我是 {name}。像练习魔法一样持续学习代码，也认真收藏普通生活里的小事。",
-    "whatTitle": "这里记录什么",
-    "whatDesc": "这里用于整理新技术、工程实践和偶尔捣乱的 bug，也保存技术之外的日常记录。",
-    "contact": "联系",
-    "guestbook": "魔法许愿簿",
-    "avatarAlt": "DemiZ 的头像"
   },
   "guestbook": {
     "title": "魔法许愿簿",

@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
   async redirects() {
     const redirects: { source: string; destination: string; permanent: boolean }[] = [
       { source: '/', destination: '/zh', permanent: false },
+      { source: '/about', destination: '/zh', permanent: true },
+      { source: '/:locale(zh|en)/about', destination: '/:locale', permanent: true },
       { source: '/projects', destination: '/zh/workshop', permanent: true },
       { source: '/collection', destination: '/zh/workshop', permanent: true },
       { source: '/:locale(zh|en)/collection', destination: '/:locale/workshop', permanent: true },
