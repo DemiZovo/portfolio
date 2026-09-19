@@ -1,5 +1,19 @@
 # 站长文章编辑
 
+## 发布与删除同步 GitHub
+
+1. 在 Supabase SQL Editor 执行 `supabase-github-sync.sql`（先执行原有 `supabase-editor.sql`）。迁移为现有已发布文章建立待同步记录，可重复执行。
+2. 在部署环境设置服务端变量 `WRITER_GITHUB_TOKEN`、`WRITER_GITHUB_REPOSITORY`（当前仓库为 `DemiZovo/portfolio`）、`WRITER_GITHUB_BRANCH=main`。令牌仅授权目标仓库的 Contents 读写权限，不要使用 NEXT_PUBLIC_ 前缀，不要提交令牌。分支规则必须允许该身份提交。API 权限说明：https://docs.github.com/en/rest/repos/contents
+3. 部署后，登录 Writer 点击「同步 GitHub / 重试」，分批同步原有文章，直到显示「GitHub 已同步」。每次最多处理五条，剩余条目继续点击同步。
+
+发布将公开快照写为 `src/content/blog/<slug>.md` 或 `src/content/life/<slug>.md`；重新发布更新同一文件。保存草稿不会上传工作副本。撤回、移入回收站、永久删除会移除对应文件；恢复仍为私有草稿，不上传。删除不会清除 Git 历史。
+
+数据库继续作为网站内容来源。公开内容变更与待同步记录在同一数据库事务中保存；GitHub 故障不会撤销网站操作。界面会分别提示网站成功与 GitHub 失败，重试不重复发布文章，也支持已永久删除文章的待同步记录。当前没有后台定时任务；失败条目由下一次发布/删除或手动同步重试。并发同步串行处理，旧版本确认不会清除新变更，崩溃锁两分钟后可重试。
+
+使用规范化 slug 作为文件名；历史上采用其他文件名的 Markdown 需要先对齐，系统不会猜测或删除其他路径。同步提交可能触发目标分支的现有部署流水线。
+
+本地验证：`node scripts/test-github-sync.mjs`（模拟 GitHub HTTP，真实内存 PostgreSQL，无生产写入）。
+
 代码已在本地实现与验证，用户随后授权将本轮更新推送到 GitHub。未执行手动部署或修改线上 Supabase。
 
 ## 使用方式

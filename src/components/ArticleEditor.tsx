@@ -136,7 +136,7 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
   async function mutate(action: string) {
     setBusy(true); setError(''); setMessage('');
     try {
-      const row: EditorArticle = await api('articles', 'POST', {
+      const row: EditorArticle & { githubSync?: { ok: boolean; message: string } } = await api('articles', 'POST', {
         action: !active && action === 'save' ? 'create' : action,
         id: active?.id, version: active?.version, kind, slug, document: doc,
       });
@@ -146,6 +146,10 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
       // Update the local list immediately, even if a subsequent reload fails.
       setRows(current => action === 'purge' ? current.filter(r => r.id !== row.id) : [row, ...current.filter(r => r.id !== row.id)]);
       setMessage(({ save: '草稿已保存，公开版本未改变。', publish: '已发布，公开页面与索引已更新。', unpublish: '已撤回为草稿。', trash: '已移入回收站。', restore: '已恢复为草稿，可检查后发布。', purge: '已永久删除。' } as Record<string, string>)[action]);
+      if (row.githubSync) {
+        if (row.githubSync.ok) setMessage(current => `${current} ${row.githubSync!.message}`);
+        else setError(`网站操作已完成，但 GitHub 尚未同步：${row.githubSync.message}`);
+      }
     } catch (e) { setError((e as Error).message); }
     finally { setBusy(false); setConfirmation(null); }
   }
@@ -187,6 +191,11 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
         <button onClick={() => { setRecovery(null); try { sessionStorage.removeItem('demiz:editor-recovery'); } catch {} }}>忽略</button>
       </section>}
       <div className="editor-actions"><button disabled={busy} onClick={() => { if (mayLeave()) open(null); }}>＋ 新增文章</button>
+        <button disabled={busy} onClick={async () => {
+          setBusy(true); setError(''); setMessage('');
+          try { const result = await api('github-sync', 'POST', {}); if (result.ok) setMessage(result.message); else setError(result.message); }
+          catch (e) { setError((e as Error).message); } finally { setBusy(false); }
+        }}>同步 GitHub / 重试</button>
         <button disabled={busy} onClick={async () => { setBusy(true); try { await reloadRows(); setMessage('列表已刷新，点击文章可打开最新版本。'); } catch (e) { setError((e as Error).message); } finally { setBusy(false); } }}>刷新列表</button>
         </div>
       <div className={`editor-workspace ${editing ? 'editor-workspace--editing' : 'editor-workspace--browse'}`}>

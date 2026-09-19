@@ -1,5 +1,7 @@
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { z } from 'zod';
+import { flushGitHubQueue } from '@/lib/editor-github-sync';
+export const maxDuration = 60;
 import { type EditorArticle, validateDocument } from '@/lib/editor-model';
 import { EditorError, editorFailure, privateJson, readBody, requireOwner, requireSameOrigin, supabaseRequest } from '@/lib/editor-server';
 
@@ -60,6 +62,8 @@ export async function POST(request: Request) {
     revalidateTag('public-articles');
     revalidatePath('/', 'layout');
     for (const path of ['/rss.xml', '/sitemap.xml', '/search-index.json']) revalidatePath(path);
-    return privateJson(article);
+    const githubSync = ['publish', 'unpublish', 'trash', 'restore', 'purge'].includes(input.action)
+      ? await flushGitHubQueue(token) : undefined;
+    return privateJson({ ...article, githubSync });
   } catch (error) { return editorFailure(error); }
 }
