@@ -42,7 +42,6 @@ export async function articleMetadata(entry: BlogEntry): Promise<Metadata> {
       url,
       publishedTime: entry.data.published.toISOString(),
       modifiedTime: entry.data.updated?.toISOString(),
-      tags: entry.data.tags,
       images: [{ url: image, alt: title }],
     },
     twitter: { card: 'summary_large_image', title, description, images: [image] },
@@ -75,9 +74,8 @@ export default async function BlogArticle({ entry, previous, next }: Props) {
             publishedAt={entry.data.published}
             minutes={minutes}
             updatedAt={entry.data.updated}
-            category={{ label: await categoryLabel(entry.data.category), href: `/blog/#category-${entry.data.category}` }}
+            category={{ label: await categoryLabel(entry.data.category), href: `/categories/#category-${entry.data.category}` }}
             status={statusLabel}
-            tags={entry.data.tags}
           />
           <div className="article-content" dangerouslySetInnerHTML={{ __html: html }} />
           <ArticleEnding seed={entry.data.slug} />
@@ -98,7 +96,6 @@ export default async function BlogArticle({ entry, previous, next }: Props) {
         url={`/${locale}/blog/${entry.data.slug}`}
         publishedTime={entry.data.published.toISOString()}
         updatedTime={entry.data.updated?.toISOString()}
-        tags={entry.data.tags}
       />
     </>
   );

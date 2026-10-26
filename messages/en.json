@@ -10,12 +10,11 @@
   "nav": {
     "home": "Home",
     "blog": "Notes",
-    "life": "Journal",
-    "archives": "Archive",
     "guestbook": "Guestbook",
     "footer": "Footer navigation",
     "main": "Main navigation",
-    "workshop": "Workshop"
+    "workshop": "Workshop",
+    "categories": "Categories"
   },
   "header": {
     "search": "Search",
@@ -34,7 +33,6 @@
   },
   "footer": {
     "privacy": "Privacy",
-    "tags": "Tags",
     "rss": "RSS",
     "copyright": "© {year} {name}"
   },
@@ -52,7 +50,7 @@
   "search": {
     "title": "Search",
     "eyebrow": "Search",
-    "label": "Search titles, summaries, categories, tags or body",
+    "label": "Search titles, summaries, categories or body",
     "placeholder": "e.g. TypeScript, WSL2, life",
     "clear": "Clear",
     "hint": "Type a keyword to search.",
@@ -63,7 +61,6 @@
     "retry": "Retry",
     "resultsAria": "Search results",
     "techArticle": "Tech article",
-    "lifeLog": "Life log",
     "emptySuggestions": "Try another way to search:",
     "emptyShorter": "Use fewer words and keep the most important term",
     "emptySpelling": "Check the spelling or try a related term",
@@ -73,29 +70,10 @@
   "blog": {
     "title": "Notes",
     "description": "DemiZ's tech blog: learning notes on AI Infra, Web, engineering practice and dev environments.",
-    "viewArchive": "View Archive",
-    "explore": "Explore",
     "recent": "Latest notes",
     "searchLink": "Search all notes",
     "featuredBadge": "✦ Featured",
-    "backToNotes": "Back to Notes",
-    "categoryAria": "{name} · {zh}, {count, plural, one {# note} other {# notes}}",
-    "categoryCount": "{count, plural, one {# note} other {# notes}}"
-  },
-  "life": {
-    "title": "Journal",
-    "backToJournal": "Back to Journal"
-  },
-  "archives": {
-    "title": "The Card Book",
-    "description": "{count} public notes, arranged by time.",
-    "read": "Read"
-  },
-  "tags": {
-    "title": "Card Index",
-    "eyebrow": "Card Index",
-    "heroDesc": "Rediscover notes and daily life through keywords.",
-    "tagTitle": "Tag: {tag}"
+    "backToNotes": "Back to Notes"
   },
   "guestbook": {
     "title": "Magic Wish Book",

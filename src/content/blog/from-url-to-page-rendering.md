@@ -4,7 +4,6 @@ description: 从 DNS、连接建立、HTTP 请求到浏览器渲染，拆解网�
 slug: from-url-to-page-rendering
 published: 2026-08-15
 category: web
-tags: [浏览器, HTTP, DNS, Web]
 draft: false
 featured: false
 toc: false

@@ -13,7 +13,7 @@ interface Props {
 export default async function ArticleRow({ entry, showCategory = false }: Props) {
   const locale = await getLocale();
   const t = await getTranslations('blog');
-  const { published, category, tags, featured } = entry.data;
+  const { published, category, featured } = entry.data;
   const date = published.toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'en-US');
   const title = entryTitle(entry, locale);
   const description = entryDescription(entry, locale);
@@ -29,9 +29,6 @@ export default async function ArticleRow({ entry, showCategory = false }: Props)
         {description && <p className="article-row__desc">{description}</p>}
         <p className="article-row__meta">
           {showCategory && category && <span className="article-row__category">{await categoryLabel(category)}</span>}
-          {tags.length > 0 && (
-            <span className="article-row__tags">{tags.slice(0, 3).map((tag) => <Link key={tag} href={`/tags/${encodeURIComponent(tag)}/` as never}>{tag}</Link>)}</span>
-          )}
         </p>
       </div>
       <span className="article-row__arrow" aria-hidden="true">↗</span>

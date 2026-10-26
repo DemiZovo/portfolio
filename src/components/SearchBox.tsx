@@ -9,8 +9,7 @@ interface SearchItem {
   description: string;
   descriptionEn?: string;
   category: string;
-  tags: string[];
-  collection: 'blog' | 'life';
+  collection: 'blog';
   published: string;
   url: string;
   searchableText: string;
@@ -23,14 +22,13 @@ const termsFor = (query: string) => normalize(query).split(' ').filter(Boolean);
 
 function scoreItem(item: SearchItem, terms: string[]): number {
   const title = normalize(item.title);
-  const tags = normalize(item.tags.join(' '));
   const category = normalize(item.category);
   const description = normalize(item.description);
   const body = normalize(item.searchableText);
-  if (!terms.every((term) => [title, tags, category, description, body].some((value) => value.includes(term)))) return -1;
+  if (!terms.every((term) => [title, category, description, body].some((value) => value.includes(term)))) return -1;
   return terms.reduce((score, term) => score
     + (title === term ? 100 : title.startsWith(term) ? 70 : title.includes(term) ? 50 : 0)
-    + (tags.includes(term) ? 30 : 0) + (category.includes(term) ? 25 : 0)
+    + (category.includes(term) ? 25 : 0)
     + (description.includes(term) ? 15 : 0) + (body.includes(term) ? 5 : 0), 0);
 }
 
@@ -127,7 +125,7 @@ export default function SearchBox({ initialQuery }: Props) {
           const displayDesc = locale === 'en' && item.descriptionEn ? item.descriptionEn : item.description;
           return (
             <article className="search-result" key={`${item.collection}:${item.url}`}>
-              <p className="meta">{item.collection === 'blog' ? t('techArticle') : t('lifeLog')} · {new Date(item.published).toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'en-US')}</p>
+              <p className="meta">{t('techArticle')} · {new Date(item.published).toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'en-US')}</p>
               <h2>
                 <a className={`card-link search-result__link${activeIndex === index ? ' is-active' : ''}`} href={`/${locale}${item.url}`} onFocus={() => setActiveIndex(index)}>
                   <Highlight text={displayTitle} terms={terms} />

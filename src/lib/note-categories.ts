@@ -1,7 +1,7 @@
 import { cache } from 'react';
-import { getOrderedCategories } from '@/data/categories';
+import { categories } from '@/data/categories';
 import { noteCategoriesSchema, type NoteCategory } from './note-category-model';
-export const defaultNoteCategories = (): NoteCategory[] => getOrderedCategories().map(c => ({ slug:c.slug,name:c.zh,description:c.description,links:[] }));
+export const defaultNoteCategories = (): NoteCategory[] => categories.map(category => ({ ...category, links: [] }));
 export const getNoteCategories = cache(async (): Promise<NoteCategory[]> => {
  if(process.env.CONTENT_SOURCE !== 'supabase') return defaultNoteCategories();
  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;

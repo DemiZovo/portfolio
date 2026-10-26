@@ -3,8 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
-// body[data-section] 有 3 处 CSS 消费者（sakura-theme.css 的 blog/life/guestbook 背景），
-// 必须用客户端恢复这个属性（Next 的服务端渲染无法在 body 上写路径相关的属性）。
+// 为各页面的背景样式设置当前栏目。
 export default function BodySection() {
   const pathname = usePathname();
   useEffect(() => {

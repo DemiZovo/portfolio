@@ -13,7 +13,7 @@ import { editorRequest as api } from '@/lib/editor-client';
 
 const blankDocument = (): ArticleDocument => ({ data: {
   title: '', description: '', published: new Date().toISOString().slice(0, 10),
-  category: 'other', tags: [], featured: false, toc: true, status: 'growing',
+  category: 'other', featured: false, toc: true, status: 'growing',
 }, body: '' });
 
 export default function ArticleEditor({ configured, initialKind, initialSlug, initialCategory, createNew, manageProjects = false, manageCategories = false }: {
@@ -22,7 +22,7 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
   const [owner, setOwner] = useState(false);
   const locale = useLocale();
   const [categories,setCategories] = useState(defaultCategories);
-  useEffect(()=>{if(!owner)return;api('categories').then(s=>setCategories(s.categories.map((c: {slug:string;name:string;description:string},order:number)=>({...c,zh:c.name,card:'',order})))).catch(()=>{});},[owner]);
+  useEffect(()=>{if(!owner)return;api('categories').then(s=>setCategories(s.categories)).catch(()=>{});},[owner]);
 
   const [authRequired, setAuthRequired] = useState(false);
   useEffect(() => { const onExpired = () => setAuthRequired(true); window.addEventListener('writer-auth-required', onExpired); return () => window.removeEventListener('writer-auth-required', onExpired); }, []);
@@ -237,12 +237,10 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
                 <label>Markdown 正文<textarea className="editor-body" spellCheck={false} value={doc.body} onChange={e => { setDoc({ ...doc, body: e.target.value }); setHtml(null); }} /></label>
                 <details className="editor-settings" open={settingsOpen} onToggle={e => setSettingsOpen(e.currentTarget.open)}><summary>文章设置 <small>摘要、分类、标签与网址</small></summary>
                 <div className="editor-fields">
-                  <label>类型<select value={kind} disabled={!!active} onChange={e => setKind(e.target.value as 'blog' | 'life')}><option value="blog">笔记</option></select></label>
                   <label>短链接<input required pattern="[a-z0-9]+(-[a-z0-9]+)*" maxLength={120} value={slug} disabled={!!active} onChange={e => setSlug(e.target.value)} /><small>保存后固定，保持文章地址稳定。</small></label>
                   <label className="editor-wide">摘要<textarea required maxLength={240} rows={2} value={String(doc.data.description ?? '')} onChange={e => change('description', e.target.value)} /></label>
                   <label>发布日期<input type="date" required value={String(doc.data.published ?? '').slice(0, 10)} onChange={e => change('published', e.target.value)} /></label>
-                  {kind === 'blog' && <label>分类<select value={String(doc.data.category ?? 'other')} onChange={e => change('category', e.target.value)}>{categories.map(c => <option key={c.slug} value={c.slug}>{c.zh}</option>)}</select></label>}
-                  <label className="editor-wide">标签（用英文逗号分隔）<input value={Array.isArray(doc.data.tags) ? doc.data.tags.join(',') : ''} onChange={e => change('tags', e.target.value.split(','))} /></label>
+                  {kind === 'blog' && <label>分类<select value={String(doc.data.category ?? 'other')} onChange={e => change('category', e.target.value)}>{categories.map(c => <option key={c.slug} value={c.slug}>{c.name}</option>)}</select></label>}
                   <details className="editor-wide editor-secondary"><summary>更多选项</summary><div className="editor-fields">
                   <label>英文标题<input maxLength={100} value={String(doc.data.titleEn ?? '')} onChange={e => change('titleEn', e.target.value || undefined)} /></label>
                   <label>英文摘要<input maxLength={240} value={String(doc.data.descriptionEn ?? '')} onChange={e => change('descriptionEn', e.target.value || undefined)} /></label>

@@ -8,7 +8,6 @@ export default async function Footer() {
   const tCommon = await getTranslations('common');
 
   const exploreLinks = [
-    { href: '/tags/', label: t('tags'), localized: true },
     { href: '/rss.xml', label: t('rss'), localized: false },
     { href: '/privacy/', label: t('privacy'), localized: true },
   ];

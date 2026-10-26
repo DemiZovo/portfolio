@@ -21,7 +21,7 @@ assert.match(login.headers.get('set-cookie'), /Secure/i);
 assert.match(login.headers.get('set-cookie'), /SameSite=strict/i);
 assert.match((await call('articles')).headers.get('cache-control'), /no-store/);
 const slug = `editor-test-${Date.now()}`;
-const doc = { data: { title: 'Editor integration fixture', description: 'A local test article', category: 'other', published: '2026-09-11', tags: ['editor-fixture-tag'] }, body: 'PUBLIC ORIGINAL' };
+const doc = { data: { title: 'Editor integration fixture', description: 'A local test article', category: 'other', published: '2026-09-11' }, body: 'PUBLIC ORIGINAL' };
 let response = await call('articles', { action: 'create', kind: 'blog', slug: 'web', document: doc });
 assert.equal(response.status, 400);
 response = await call('articles', { action: 'create', kind: 'blog', slug, document: doc });
@@ -42,7 +42,7 @@ async function publicContains(expected) {
     assert.ok(article.status === 404 || (article.status === 200 && html.includes('noindex')));
     assert.ok(!html.includes('PUBLIC ORIGINAL') && !html.includes('PRIVATE UNPUBLISHED REVISION'));
   }
-  for (const path of ['/search-index.json', '/rss.xml', '/sitemap.xml', '/zh', '/zh/blog', '/zh/archives', '/zh/blog/other']) {
+  for (const path of ['/search-index.json', '/rss.xml', '/sitemap.xml', '/zh', '/zh/blog', '/zh/categories']) {
     const response = await fetch(origin + path);
     assert.equal(response.status, 200);
     assert.equal((await response.text()).includes(slug), expected, path);

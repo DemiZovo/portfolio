@@ -1,3 +1,4 @@
+import { getNoteCategories } from '@/lib/note-categories';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { z } from 'zod';
 import { flushGitHubQueue } from '@/lib/editor-github-sync';
@@ -43,11 +44,14 @@ export async function POST(request: Request) {
       kind = row.kind; slug = row.slug;
     }
     if (!kind || !slug) throw new EditorError('缺少文章类型或短链接。');
+    const categories = await getNoteCategories();
+    if (kind === 'blog' && categories.some(c => c.slug === slug)) throw new EditorError('短链接与分类标识冲突');
     let document;
     if (['create', 'save', 'publish'].includes(input.action)) {
       try { document = validateDocument(kind, slug, input.document); }
       catch (error) { throw new EditorError(error instanceof z.ZodError ? error.issues.map(i => `${i.path.join('.')}: ${i.message}`).join('；') : (error as Error).message); }
     }
+    if (kind === 'blog' && document && ['create', 'publish'].includes(input.action) && !categories.some(c => c.slug === document.data.category)) throw new EditorError('请选择现有分类，或先在分类管理中新增分类。');
     const result = await supabaseRequest('/rest/v1/rpc/edit_article', token, { method: 'POST', body: JSON.stringify({
       action: input.action, article_id: input.id ?? null, expected_version: input.version ?? null,
       article_kind: kind, article_slug: slug, document: document ?? null,

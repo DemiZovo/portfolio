@@ -10,12 +10,11 @@
   "nav": {
     "home": "首页",
     "blog": "笔记",
-    "life": "日常手账",
-    "archives": "归档",
     "guestbook": "留言板",
     "footer": "页脚导航",
     "main": "主导航",
-    "workshop": "工坊"
+    "workshop": "工坊",
+    "categories": "分类"
   },
   "header": {
     "search": "搜索",
@@ -34,7 +33,6 @@
   },
   "footer": {
     "privacy": "隐私说明",
-    "tags": "Tags",
     "rss": "RSS",
     "copyright": "© {year} {name}"
   },
@@ -52,7 +50,7 @@
   "search": {
     "title": "站内搜索",
     "eyebrow": "Search",
-    "label": "搜索标题、摘要、分类、标签或正文",
+    "label": "搜索标题、摘要、分类或正文",
     "placeholder": "例如：TypeScript、WSL2、生活",
     "clear": "清空",
     "hint": "输入关键词开始搜索。",
@@ -63,39 +61,19 @@
     "retry": "重试加载",
     "resultsAria": "搜索结果",
     "techArticle": "技术文章",
-    "lifeLog": "生活日志",
     "emptySuggestions": "可以换个方式继续找：",
     "emptyShorter": "缩短关键词，只保留最重要的词",
     "emptySpelling": "检查拼写，或改用中文／英文近义词",
-    "emptyTopics": "尝试分类或标签，例如 AI、Web、生活",
+    "emptyTopics": "尝试分类，例如 AI、Web、生活",
     "keyboardHint": "可使用上、下方向键浏览结果，按 Enter 打开，按 Esc 返回搜索框。"
   },
   "blog": {
     "title": "笔记",
     "description": "DemiZ 的技术博客：AI Infra、Web、工程实践与开发环境的学习记录。",
-    "viewArchive": "查看 Archive",
-    "explore": "探索领域",
     "recent": "最新笔记",
     "searchLink": "搜索所有笔记",
     "featuredBadge": "✦ 精选",
-    "backToNotes": "返回笔记",
-    "categoryAria": "{name} · {zh}，共 {count} 篇笔记",
-    "categoryCount": "{count} 篇"
-  },
-  "life": {
-    "title": "日常手账",
-    "backToJournal": "返回日常手账"
-  },
-  "archives": {
-    "title": "库洛牌全书",
-    "description": "按时间整理的 {count} 条公开记录。",
-    "read": "已读"
-  },
-  "tags": {
-    "title": "卡牌标签",
-    "eyebrow": "Card Index",
-    "heroDesc": "从关键词重新发现笔记与日常。",
-    "tagTitle": "标签：{tag}"
+    "backToNotes": "返回笔记"
   },
   "guestbook": {
     "title": "魔法许愿簿",

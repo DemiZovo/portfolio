@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
       { source: '/projects', destination: '/zh/workshop', permanent: true },
       { source: '/collection', destination: '/zh/workshop', permanent: true },
       { source: '/:locale(zh|en)/collection', destination: '/:locale/workshop', permanent: true },
-      { source: '/categories', destination: '/zh/blog', permanent: true },
+      { source: '/categories', destination: '/zh/categories', permanent: true },
     ];
     for (const category of categories) {
       redirects.push({ source: `/categories/${category.slug}`, destination: `/zh/blog/${category.slug}`, permanent: true });

@@ -5,7 +5,6 @@ const imagePattern = /\.(?:webp|avif|png|jpe?g)$/i;
 
 const slug = z.string().regex(slugPattern, '必须是英文小写短链接，单词用连字符分隔');
 const image = z.string().regex(imagePattern, '必须是受支持的图片路径');
-const tags = z.array(z.string().trim().min(1)).default([]);
 const optionalUpdated = z.coerce.date().optional();
 // 笔记成熟度：seed（刚开始整理）/ growing（仍在补充）/ evergreen（相对稳定）。
 const noteStatus = z.enum(['seed', 'growing', 'evergreen']).default('growing');
@@ -19,7 +18,6 @@ export const blogSchema = z.object({
   published: z.coerce.date(),
   updated: optionalUpdated,
   category: z.string().trim().min(1),
-  tags,
   cover: image.optional(),
   draft: z.boolean().default(false),
   featured: z.boolean().default(false),
@@ -46,7 +44,6 @@ export const lifeSchema = z.object({
   slug,
   published: z.coerce.date(),
   updated: optionalUpdated,
-  tags,
   cover: image.optional(),
   gallery: z.array(galleryItem).default([]),
   draft: z.boolean().default(false),

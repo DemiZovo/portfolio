@@ -69,7 +69,6 @@ export default async function HomePage() {
               <p className="meta">{t('featuredLabel')}{dateFormat(entry.data.published)}</p>
               <h3><Link className="card-link" href={entryPath(entry) as never}>{entryTitle(entry, locale)}</Link></h3>
               <p>{entryDescription(entry, locale)}</p>
-              <ul className="tags">{entry.data.tags.map((tag) => <li key={tag}><Link className="tag" href={`/tags/${encodeURIComponent(tag)}/` as never}>{tag}</Link></li>)}</ul>
             </article>
           ))}</div>
         </section>
@@ -81,7 +80,6 @@ export default async function HomePage() {
             <p className="meta">{dateFormat(entry.data.published)}</p>
             <h3><Link className="card-link" href={entryPath(entry) as never}>{entryTitle(entry, locale)}</Link></h3>
             <p>{entryDescription(entry, locale)}</p>
-            <ul className="tags">{entry.data.tags.map((tag) => <li key={tag}><Link className="tag" href={`/tags/${encodeURIComponent(tag)}/` as never}>{tag}</Link></li>)}</ul>
           </article>
         ))}</div>
       </section>

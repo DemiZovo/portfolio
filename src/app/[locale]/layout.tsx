@@ -15,7 +15,6 @@ import NavWheel from '@/components/NavWheel';
 import Footer from '@/components/Footer';
 import MagicEffects from '@/components/MagicEffects';
 import MagicScrollEffects from '@/components/MagicScrollEffects';
-import ReadMarkers from '@/components/ReadMarkers';
 import BodySection from '@/components/BodySection';
 import Analytics from '@/components/Analytics';
 import PerformanceInsights from '@/components/PerformanceInsights';
@@ -94,7 +93,6 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
             <main id="main-content" className="site-main">{children}</main>
             <Footer />
           </div>
-          <ReadMarkers />
         </NextIntlClientProvider>
         <Analytics />
         {process.env.VERCEL === '1' && <PerformanceInsights />}

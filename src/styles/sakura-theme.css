@@ -121,7 +121,6 @@ a{color:var(--wine)}
 .card{padding:1.15rem;border-left:2px solid color-mix(in srgb,var(--accent-soft) 60%,var(--border))}
 .card-link{text-decoration-thickness:1px;text-decoration-color:transparent;transition:text-decoration-color .15s ease,color .15s ease}
 .card-link:hover{text-decoration-color:var(--gold);color:var(--wine)}
-.tags{gap:.35rem}
 .tag{
   padding:.08rem .4rem;
   border:0;
@@ -148,10 +147,9 @@ a{color:var(--wine)}
   box-shadow:none;
 }
 .home-updates .card>.meta{grid-column:1;grid-row:1/4;margin:.15rem 0}
-.home-updates .card>h3,.home-updates .card>p,.home-updates .card>.tags{grid-column:2;margin-top:0}
+.home-updates .card>h3,.home-updates .card>p{grid-column:2;margin-top:0}
 .home-updates .card>h3{margin-bottom:.25rem;font-family:Georgia,"Noto Serif SC","Songti SC",serif;font-size:1.3rem}
 .home-updates .card>p{margin-bottom:.65rem;color:var(--muted)}
-.home-updates .card>.tags{margin-bottom:0}
 
 .home-magic-hero{min-height:23rem;background:linear-gradient(135deg,var(--surface) 45%,color-mix(in srgb,var(--accent-soft) 22%,var(--surface)),color-mix(in srgb,var(--sky) 20%,var(--surface)))}
 .home-magic-hero::before{
@@ -235,7 +233,6 @@ a{color:var(--wine)}
 .lost-card{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2rem;min-height:25rem}
 .lost-card-symbol{display:grid;place-items:center;width:8rem;aspect-ratio:2/3;border:2px solid var(--gold);border-radius:.7rem;background:var(--surface-soft);color:var(--wine);font:700 4rem Georgia,serif;box-shadow:inset 0 0 0 .45rem var(--surface),inset 0 0 0 .55rem var(--wine)}
 body[data-section="guestbook"] .article{background:linear-gradient(150deg,var(--surface),color-mix(in srgb,var(--sun) 14%,var(--surface)))}
-body[data-section="life"] .article-hero{background:linear-gradient(135deg,color-mix(in srgb,var(--sun) 18%,var(--surface)),color-mix(in srgb,var(--accent-soft) 12%,var(--surface)))}
 body[data-section="blog"] .article-hero{background:linear-gradient(135deg,var(--surface-soft),color-mix(in srgb,var(--sky) 16%,var(--surface)))}
 .article pre{position:relative;border:1px solid color-mix(in srgb,var(--gold) 55%,transparent);box-shadow:inset 0 0 0 .25rem color-mix(in srgb,var(--accent-soft) 7%,transparent)}
 .code-copy{position:absolute;right:.6rem;top:.6rem;display:flex;align-items:center;gap:.3rem;padding:.3rem .5rem;border:1px solid #72505a;border-radius:.3rem;background:#2b2226;color:#f7eceb;font:inherit;font-size:.72rem;cursor:pointer}
@@ -292,7 +289,7 @@ body[data-section="blog"] .article-hero{background:linear-gradient(135deg,var(--
   .page-shell{width:calc(100% - 1rem)}
   .site-header{box-shadow:var(--shadow-neumo-soft)}
   .home-updates .card{grid-template-columns:1fr;gap:.2rem}
-  .home-updates .card>.meta,.home-updates .card>h3,.home-updates .card>p,.home-updates .card>.tags{grid-column:1;grid-row:auto}
+  .home-updates .card>.meta,.home-updates .card>h3,.home-updates .card>p{grid-column:1;grid-row:auto}
   .portrait-card{width:7rem}
   .portrait-card--large{width:8.5rem}
   .card-progress{grid-template-columns:1fr}

@@ -135,6 +135,7 @@ export default function Header() {
               <nav className="mobile-menu__panel" aria-label={t('nav.main')}>
                 <Link href="/" onClick={closeMenu} aria-current={current('/') ? 'page' : undefined}>{t('nav.home')}</Link>
                 <Link href="/blog/" onClick={closeMenu} aria-current={current('/blog/') ? 'page' : undefined}>{t('nav.blog')}</Link>
+                <Link href="/categories/" onClick={closeMenu} aria-current={current('/categories/') ? 'page' : undefined}>{t('nav.categories')}</Link>
                 <Link href="/workshop/" onClick={closeMenu} aria-current={current('/workshop/') ? 'page' : undefined}>{t('nav.workshop')}</Link>
                 <Link href="/guestbook/" onClick={closeMenu} aria-current={current('/guestbook/') ? 'page' : undefined}>{t('nav.guestbook')}</Link>
               </nav>
@@ -147,6 +148,7 @@ export default function Header() {
       <nav className="mobile-nav" aria-label={t('nav.main')}>
         <Link href="/" aria-current={current('/') ? 'page' : undefined}>{t('nav.home')}</Link>
         <Link href="/blog/" aria-current={current('/blog/') ? 'page' : undefined}>{t('nav.blog')}</Link>
+        <Link href="/categories/" aria-current={current('/categories/') ? 'page' : undefined}>{t('nav.categories')}</Link>
         <Link href="/workshop/" aria-current={current('/workshop/') ? 'page' : undefined}>{t('nav.workshop')}</Link>
         <Link href="/guestbook/" aria-current={current('/guestbook/') ? 'page' : undefined}>{t('nav.guestbook')}</Link>
       </nav>

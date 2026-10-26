@@ -4,7 +4,6 @@ description: 整理 WSL2 的安装方式、常用管理命令、Windows 文件�
 slug: wsl2-setup-and-commands
 published: 2026-08-14
 category: dev
-tags: [WSL2, Windows, Linux, Docker]
 draft: false
 featured: false
 toc: true

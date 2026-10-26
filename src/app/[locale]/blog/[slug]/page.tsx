@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 import BlogArticle, { articleMetadata } from '@/components/BlogArticle';
-import BlogCategory from '@/components/BlogCategory';
 import { getBlogBySlug, getPublicBlog } from '@/lib/content';
-import { getBlogCategories } from '@/lib/categories';
+import { getNoteCategories } from '@/lib/note-categories';
 import { routing } from '@/i18n/routing';
 
 interface Props {
@@ -13,7 +12,7 @@ interface Props {
 
 export async function generateStaticParams() {
   const blog = (await getPublicBlog());
-  const categories = (await getBlogCategories());
+  const categories = (await getNoteCategories());
   const slugs = [
     ...blog.map((entry) => ({ slug: entry.data.slug })),
     ...categories.map((category) => ({ slug: category.slug })),
@@ -27,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const entry = (await getBlogBySlug(slug));
   if (entry) return articleMetadata(entry);
-  const category = (await getBlogCategories()).find((item) => item.slug === slug);
+  const category = (await getNoteCategories()).find((item) => item.slug === slug);
   if (category) {
     return {
       title: `${category.name} | DemiZ`,
@@ -42,8 +41,8 @@ export default async function BlogSlugPage({ params }: Props) {
   setRequestLocale(locale);
 
   // 分类路由优先，避免与文章短链接冲突。
-  const category = (await getBlogCategories()).find((c) => c.slug === slug);
-  if (category) return <BlogCategory category={category} />;
+  const category = (await getNoteCategories()).find((c) => c.slug === slug);
+  if (category) permanentRedirect('/'+locale+'/categories#category-'+category.slug);
 
   const blog = (await getPublicBlog());
   const index = blog.findIndex((entry) => entry.data.slug === slug);

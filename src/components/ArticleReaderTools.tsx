@@ -37,8 +37,6 @@ export default function ArticleReaderTools({ entryKey, headings = [], showToc = 
   const t = useTranslations('reader');
   const rootRef = useRef<HTMLElement>(null);
   const tocHeadings = showToc ? headings.filter(({ depth }) => depth >= 2 && depth <= 4) : [];
-  // 仅日常手账（life）自动已读；博客（blog）只支持手动标记。
-  const autoMarkRead = entryKey.startsWith('life:');
 
   useEffect(() => {
     const tools = rootRef.current;
@@ -96,7 +94,6 @@ export default function ArticleReaderTools({ entryKey, headings = [], showToc = 
 
     const tocLinks = [...tools.querySelectorAll<HTMLAnchorElement>('[data-toc-link]')];
     const sections = tocLinks.map((link) => document.getElementById(link.dataset.tocLink ?? '')).filter((section): section is HTMLElement => Boolean(section));
-    let automaticallyMarked = reads.has(entryKey);
 
     const onScroll = () => {
       const articleTop = article.offsetTop;
@@ -110,10 +107,6 @@ export default function ArticleReaderTools({ entryKey, headings = [], showToc = 
         topProgress.classList.toggle('is-visible', ratio > 0.005 && window.scrollY > 32);
       }
 
-      if (autoMarkRead && !automaticallyMarked && ratio >= 0.7) {
-        automaticallyMarked = true;
-        setRead(true, false);
-      }
 
       let activeId = '';
       for (const section of sections) {

@@ -149,22 +149,6 @@ body:not([data-section="home"]) .sparkle-layer {
   color: var(--muted);
 }
 
-/* Archive and tags are content indexes, not cards. */
-.archive-book {
-  width: min(100%, var(--container-reading));
-  margin-inline: auto;
-  padding: 0 !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-.archive-year { padding-inline: 0 !important; }
-.archive-year + .archive-year { margin-top: var(--space-7); }
-.archive-year h2 { margin-bottom: var(--space-3); }
-.tags-index { max-width: var(--container-reading); margin-inline: auto; gap: var(--space-3); }
-
 /* Article code blocks expose language as a quiet control header. */
 .article pre[data-language] {
   padding-top: var(--space-7);

@@ -9,10 +9,9 @@ interface Props {
   url?: string;
   publishedTime?: string;
   updatedTime?: string;
-  tags?: string[];
 }
 
-export default function JsonLd({ type, title, description, image, url, publishedTime, updatedTime, tags = [] }: Props) {
+export default function JsonLd({ type, title, description, image, url, publishedTime, updatedTime }: Props) {
   const data =
     type === 'article'
       ? {
@@ -26,7 +25,6 @@ export default function JsonLd({ type, title, description, image, url, published
           datePublished: publishedTime,
           dateModified: updatedTime ?? publishedTime,
           author: { '@type': 'Person', name: siteConfig.author.name, url: siteUrl('/zh') },
-          keywords: tags.join(', '),
         }
       : {
           '@context': 'https://schema.org',
