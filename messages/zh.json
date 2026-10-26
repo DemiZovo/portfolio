@@ -9,7 +9,7 @@
   },
   "nav": {
     "home": "首页",
-    "blog": "魔法笔记",
+    "blog": "笔记",
     "life": "日常手账",
     "archives": "归档",
     "guestbook": "留言板",
@@ -71,14 +71,14 @@
     "keyboardHint": "可使用上、下方向键浏览结果，按 Enter 打开，按 Esc 返回搜索框。"
   },
   "blog": {
-    "title": "魔法笔记",
+    "title": "笔记",
     "description": "DemiZ 的技术博客：AI Infra、Web、工程实践与开发环境的学习记录。",
     "viewArchive": "查看 Archive",
     "explore": "探索领域",
     "recent": "最新笔记",
     "searchLink": "搜索所有笔记",
     "featuredBadge": "✦ 精选",
-    "backToNotes": "返回魔法笔记",
+    "backToNotes": "返回笔记",
     "categoryAria": "{name} · {zh}，共 {count} 篇笔记",
     "categoryCount": "{count} 篇"
   },

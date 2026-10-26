@@ -2,10 +2,11 @@
 
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { useLocale } from 'next-intl';
-import { categories } from '@/data/categories';
+import { categories as defaultCategories } from '@/data/categories';
 import type { ArticleDocument, EditorArticle } from '@/lib/editor-model';
 import './article-editor.css';
 import ProjectEditor from './ProjectEditor';
+import CategoryEditor from './CategoryEditor';
 import { Link } from '@/i18n/navigation';
 
 import { editorRequest as api } from '@/lib/editor-client';
@@ -15,11 +16,14 @@ const blankDocument = (): ArticleDocument => ({ data: {
   category: 'other', tags: [], featured: false, toc: true, status: 'growing',
 }, body: '' });
 
-export default function ArticleEditor({ configured, initialKind, initialSlug, initialCategory, createNew, manageProjects = false }: {
-  configured: boolean; initialKind?: string; initialSlug?: string; initialCategory?: string; createNew?: boolean; manageProjects?: boolean;
+export default function ArticleEditor({ configured, initialKind, initialSlug, initialCategory, createNew, manageProjects = false, manageCategories = false }: {
+  configured: boolean; initialKind?: string; initialSlug?: string; initialCategory?: string; createNew?: boolean; manageProjects?: boolean; manageCategories?: boolean;
 }) {
-  const locale = useLocale();
   const [owner, setOwner] = useState(false);
+  const locale = useLocale();
+  const [categories,setCategories] = useState(defaultCategories);
+  useEffect(()=>{if(!owner)return;api('categories').then(s=>setCategories(s.categories.map((c: {slug:string;name:string;description:string},order:number)=>({...c,zh:c.name,card:'',order})))).catch(()=>{});},[owner]);
+
   const [authRequired, setAuthRequired] = useState(false);
   useEffect(() => { const onExpired = () => setAuthRequired(true); window.addEventListener('writer-auth-required', onExpired); return () => window.removeEventListener('writer-auth-required', onExpired); }, []);
   const [projectDirty, setProjectDirty] = useState(false);
@@ -92,12 +96,12 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
     api('session').then(async () => {
       if (cancelled) return;
       setOwner(true);
-      if (manageProjects) return;
+      if (manageProjects || manageCategories) return;
       const result: EditorArticle[] = await api('articles');
       if (!cancelled) setRows(result);
     }).catch((e: Error) => { if (!cancelled) setMessage(e.message); }).finally(() => { if (!cancelled) setChecking(false); });
     return () => { cancelled = true; };
-  }, [configured, manageProjects]);
+  }, [configured, manageProjects, manageCategories]);
   useEffect(() => {
     if (didOpen.current || !owner) return;
     if (createNew) { didOpen.current = true; open(null); return; }
@@ -129,7 +133,7 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
   };
   async function login(e: FormEvent) {
     e.preventDefault(); setBusy(true); setError('');
-    try { await api('session', 'POST', { email, password }); setPassword(''); setOwner(true); setAuthRequired(false); setMessage(''); if (!manageProjects) await reloadRows(); }
+    try { await api('session', 'POST', { email, password }); setPassword(''); setOwner(true); setAuthRequired(false); setMessage(''); if (!manageProjects && !manageCategories) await reloadRows(); }
     catch (e) { setError((e as Error).message); }
     finally { setBusy(false); }
   }
@@ -158,12 +162,12 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a'); a.href = url; a.download = `${slug || 'untitled'}.md`; a.click(); URL.revokeObjectURL(url);
   }
-  const visibleRows = rows.filter(row => (filter === 'trash' ? !!row.deleted_at : !row.deleted_at && (filter === 'all' || (filter === 'published' ? !!row.published : !row.published))) && String(row.working.data.title).toLowerCase().includes(query.toLowerCase()));
-  if (!configured) return <section className="editor-shell"><h1>{manageProjects ? '项目管理' : '文章管理'}</h1><p>站长 Writer 尚未启用。</p><p>请先完成数据库初始化、导入现有文章，并配置站长账号和内容来源。操作说明见项目中的 EDITOR_SETUP.md；管理工坊项目还需执行 supabase-workshop.sql。</p></section>;
+  const visibleRows = rows.filter(row => row.kind === 'blog' && (filter === 'trash' ? !!row.deleted_at : !row.deleted_at && (filter === 'all' || (filter === 'published' ? !!row.published : !row.published))) && String(row.working.data.title).toLowerCase().includes(query.toLowerCase()));
+  if (!configured) return <section className="editor-shell"><h1>{manageCategories ? '分类管理' : manageProjects ? '项目管理' : '笔记管理'}</h1><p>站长 Writer 尚未启用。</p><p>请先完成数据库初始化、导入现有文章，并配置站长账号和内容来源。操作说明见项目中的 EDITOR_SETUP.md；管理工坊项目还需执行 supabase-workshop.sql。</p></section>;
   if (checking) return <p role="status">正在检查登录状态…</p>;
 
   return <section className="editor-shell">
-    <header className="editor-heading"><div><p className="eyebrow">DEMiZ · WRITING ROOM</p><h1>{manageProjects ? '项目管理' : '文章管理'}</h1></div>
+    <header className="editor-heading"><div><p className="eyebrow">DEMiZ · WRITING ROOM</p><h1>{manageCategories ? '分类管理' : manageProjects ? '项目管理' : '笔记管理'}</h1></div>
       {owner && <button disabled={busy} onClick={async () => {
         if (!mayLeave()) return;
         setBusy(true);
@@ -171,7 +175,7 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
         catch (e) { setError((e as Error).message); } finally { setBusy(false); }
       }}>退出登录</button>}
     </header>
-    <nav className="editor-actions" aria-label="Writer 管理栏目"><Link href="/write" aria-current={!manageProjects ? 'page' : undefined}>文章管理</Link><Link href="/write?view=projects" aria-current={manageProjects ? 'page' : undefined}>项目管理</Link></nav>
+    <nav className="editor-actions" aria-label="Writer 管理栏目"><Link href="/write" aria-current={!manageProjects && !manageCategories ? 'page' : undefined}>笔记管理</Link><Link href="/write?view=categories" aria-current={manageCategories ? 'page' : undefined}>分类管理</Link><Link href="/write?view=projects" aria-current={manageProjects ? 'page' : undefined}>项目管理</Link></nav>
     {message && <p role="status" className="editor-message">{message}</p>}
     {error && <p role="alert" className="editor-error">{error}</p>}
     {(!owner || authRequired) && <form onSubmit={login} className="editor-login">
@@ -180,7 +184,7 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
       <label>密码<input type="password" autoComplete="current-password" required value={password} onChange={e => setPassword(e.target.value)} /></label>
       <button disabled={busy} type="submit">{busy ? '正在登录…' : '登录'}</button>
     </form>}
-    {owner && <div hidden={authRequired}>{manageProjects ? <>
+    {owner && <div hidden={authRequired}>{manageCategories ? <CategoryEditor onDirty={setProjectDirty} /> : manageProjects ? <>
       <ProjectEditor onDirty={setProjectDirty} />
     </> : <>
       {recovery && <section className="editor-confirm" role="status"><p>发现本标签页未保存的内容：{String(recovery.doc.data.title || '未命名文章')}。</p>
@@ -233,7 +237,7 @@ export default function ArticleEditor({ configured, initialKind, initialSlug, in
                 <label>Markdown 正文<textarea className="editor-body" spellCheck={false} value={doc.body} onChange={e => { setDoc({ ...doc, body: e.target.value }); setHtml(null); }} /></label>
                 <details className="editor-settings" open={settingsOpen} onToggle={e => setSettingsOpen(e.currentTarget.open)}><summary>文章设置 <small>摘要、分类、标签与网址</small></summary>
                 <div className="editor-fields">
-                  <label>类型<select value={kind} disabled={!!active} onChange={e => setKind(e.target.value as 'blog' | 'life')}><option value="blog">魔法笔记</option><option value="life">日常手账</option></select></label>
+                  <label>类型<select value={kind} disabled={!!active} onChange={e => setKind(e.target.value as 'blog' | 'life')}><option value="blog">笔记</option></select></label>
                   <label>短链接<input required pattern="[a-z0-9]+(-[a-z0-9]+)*" maxLength={120} value={slug} disabled={!!active} onChange={e => setSlug(e.target.value)} /><small>保存后固定，保持文章地址稳定。</small></label>
                   <label className="editor-wide">摘要<textarea required maxLength={240} rows={2} value={String(doc.data.description ?? '')} onChange={e => change('description', e.target.value)} /></label>
                   <label>发布日期<input type="date" required value={String(doc.data.published ?? '').slice(0, 10)} onChange={e => change('published', e.target.value)} /></label>

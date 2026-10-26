@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
 import { categories } from './src/data/categories';
-import { legacyCategoryAliases } from './src/lib/categories';
+import { legacyCategoryAliases } from './src/data/category-aliases';
 
 const nextConfig: NextConfig = {
   outputFileTracingRoot: process.cwd(),

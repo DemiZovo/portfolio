@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import OptionWheel, { type OptionWheelItem } from './OptionWheel';
 import { usePathname, useRouter } from '@/i18n/navigation';
 
-const navHrefs = ['/', '/blog/', '/workshop/', '/life/', '/archives/', '/guestbook/'] as const;
+const navHrefs = ['/', '/blog/', '/workshop/', '/guestbook/'] as const;
 
 function currentIndex(pathname: string): number {
   const normalized = (p: string) => (p === '/' ? p : p.replace(/\/+$/, ''));
@@ -30,8 +30,6 @@ export default function NavWheel() {
       { label: t('home'), href: '/', ariaLabel: t('home') },
       { label: t('blog'), href: '/blog/', ariaLabel: t('blog') },
       { label: t('workshop'), href: '/workshop/', ariaLabel: t('workshop') },
-      { label: t('life'), href: '/life/', ariaLabel: t('life') },
-      { label: t('archives'), href: '/archives/', ariaLabel: t('archives') },
       { label: t('guestbook'), href: '/guestbook/', ariaLabel: t('guestbook') },
     ],
     [t],

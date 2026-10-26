@@ -75,7 +75,7 @@ export default async function BlogArticle({ entry, previous, next }: Props) {
             publishedAt={entry.data.published}
             minutes={minutes}
             updatedAt={entry.data.updated}
-            category={{ label: categoryLabel(entry.data.category), href: `/blog/${entry.data.category}/` }}
+            category={{ label: await categoryLabel(entry.data.category), href: `/blog/#category-${entry.data.category}` }}
             status={statusLabel}
             tags={entry.data.tags}
           />

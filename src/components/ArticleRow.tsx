@@ -28,7 +28,7 @@ export default async function ArticleRow({ entry, showCategory = false }: Props)
         </h2>
         {description && <p className="article-row__desc">{description}</p>}
         <p className="article-row__meta">
-          {showCategory && category && <Link className="article-row__category" href={`/blog/${category}/` as never}>{categoryLabel(category)}</Link>}
+          {showCategory && category && <span className="article-row__category">{await categoryLabel(category)}</span>}
           {tags.length > 0 && (
             <span className="article-row__tags">{tags.slice(0, 3).map((tag) => <Link key={tag} href={`/tags/${encodeURIComponent(tag)}/` as never}>{tag}</Link>)}</span>
           )}

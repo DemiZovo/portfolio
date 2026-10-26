@@ -9,5 +9,5 @@ export default async function WritePage({ params, searchParams }: {
   setRequestLocale(locale);
   const { kind, slug, category, new: newArticle, view } = await searchParams;
   const configured = process.env.CONTENT_SOURCE === 'supabase' && !!process.env.NEXT_PUBLIC_SUPABASE_URL && !!process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
-  return <ArticleEditor key={`${view}:${kind}:${slug}:${category}:${newArticle}`} manageProjects={view === 'projects'} configured={configured} initialKind={kind} initialSlug={slug} initialCategory={category} createNew={newArticle === '1'} />;
+  return <ArticleEditor key={`${view}:${kind}:${slug}:${category}:${newArticle}`} manageCategories={view === 'categories'} manageProjects={view === 'projects'} configured={configured} initialKind={kind} initialSlug={slug} initialCategory={category} createNew={newArticle === '1'} />;
 }

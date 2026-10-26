@@ -4,12 +4,12 @@ import { sitePath } from '@/lib/urls';
 
 export async function GET() {
   const entries = (await getPublicContent());
-  return new Response(JSON.stringify(entries.map((entry) => ({
+  return new Response(JSON.stringify(await Promise.all(entries.map(async (entry) => ({
     title: entry.data.title,
     titleEn: 'titleEn' in entry.data ? entry.data.titleEn : undefined,
     description: entry.data.description,
     descriptionEn: 'descriptionEn' in entry.data ? entry.data.descriptionEn : undefined,
-    category: entry.collection === 'blog' ? categoryLabel(entry.data.category) : '生活',
+    category: entry.collection === 'blog' ? await categoryLabel(entry.data.category) : '生活',
     tags: entry.data.tags,
     collection: entry.collection,
     published: entry.data.published.toISOString(),
@@ -21,5 +21,5 @@ export async function GET() {
       .replace(/\s+/g, ' ')
       .trim()
       .slice(0, 6000),
-  }))), { headers: { 'Content-Type': 'application/json; charset=utf-8' } });
+  })))), { headers: { 'Content-Type': 'application/json; charset=utf-8' } });
 }

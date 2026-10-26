@@ -77,7 +77,7 @@ const loadPublished = cache(async (): Promise<PublicEntry[]> => {
 
 export const getPublicBlog = cache(async (): Promise<BlogEntry[]> => (await loadPublished()).filter((entry): entry is BlogEntry => entry.collection === 'blog'));
 export const getPublicLife = cache(async (): Promise<LifeEntry[]> => (await loadPublished()).filter((entry): entry is LifeEntry => entry.collection === 'life'));
-export const getPublicContent = loadPublished;
+export const getPublicContent = getPublicBlog;
 export async function getBlogBySlug(slug: string) { return (await getPublicBlog()).find((entry) => entry.slug === slug); }
 export async function getLifeBySlug(slug: string) { return (await getPublicLife()).find((entry) => entry.slug === slug); }
 

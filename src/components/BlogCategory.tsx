@@ -1,3 +1,4 @@
+import { getNoteCategories } from '@/lib/note-categories';
 import { getTranslations } from 'next-intl/server';
 import type { CategoryWithCount } from '@/lib/categories';
 import { getBlogByCategory } from '@/lib/categories';
@@ -10,6 +11,7 @@ interface Props {
 
 export default async function BlogCategory({ category }: Props) {
   const t = await getTranslations('blog');
+  const links = (await getNoteCategories()).find(c=>c.slug===category.slug)?.links ?? [];
   const entries = (await getBlogByCategory(category.slug));
   const tagCounts = new Map<string, number>();
   for (const entry of entries) {
@@ -33,6 +35,7 @@ export default async function BlogCategory({ category }: Props) {
         )}
       </section>
 
+      {links.length > 0 && <ul>{links.map((link,i)=><li key={i}>{link.url.startsWith('/') ? <Link href={link.url}>{link.title}</Link> : <a href={link.url} target="_blank" rel="noopener noreferrer">{link.title} ↗</a>}</li>)}</ul>}
       {entries.length > 0 ? (
         <section className="article-list" aria-label={`${category.name} 的文章列表`}>
           {entries.map((entry) => <ArticleRow key={entry.slug} entry={entry} />)}

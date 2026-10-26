@@ -38,3 +38,5 @@
 .editor-shell nav[aria-label="Writer 管理栏目"] a[aria-current=page] { background: var(--surface-soft); color: var(--wine); box-shadow: inset 0 -2px var(--accent); }
 .editor-main[hidden] { display: none; }
 @media(max-width:760px) { .editor-workspace--editing { grid-template-columns: minmax(0,1fr); }.editor-workspace--editing .editor-list { display: none; }.editor-workspace--browse .editor-list-filters { grid-template-columns: minmax(0,1fr); }.editor-workspace--browse .editor-list-row { gap: var(--space-2); }.editor-workspace--browse .editor-list-row > button:first-child { padding-inline: var(--space-2); } }
+
+.note-category-edit{padding:1.5rem 0;border-bottom:1px solid var(--border);margin-bottom:1.5rem}.note-category-edit h3{margin-top:1.5rem}

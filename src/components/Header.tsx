@@ -136,8 +136,6 @@ export default function Header() {
                 <Link href="/" onClick={closeMenu} aria-current={current('/') ? 'page' : undefined}>{t('nav.home')}</Link>
                 <Link href="/blog/" onClick={closeMenu} aria-current={current('/blog/') ? 'page' : undefined}>{t('nav.blog')}</Link>
                 <Link href="/workshop/" onClick={closeMenu} aria-current={current('/workshop/') ? 'page' : undefined}>{t('nav.workshop')}</Link>
-                <Link href="/life/" onClick={closeMenu} aria-current={current('/life/') ? 'page' : undefined}>{t('nav.life')}</Link>
-                <Link href="/archives/" onClick={closeMenu} aria-current={current('/archives/') ? 'page' : undefined}>{t('nav.archives')}</Link>
                 <Link href="/guestbook/" onClick={closeMenu} aria-current={current('/guestbook/') ? 'page' : undefined}>{t('nav.guestbook')}</Link>
               </nav>
             </details>
@@ -150,8 +148,6 @@ export default function Header() {
         <Link href="/" aria-current={current('/') ? 'page' : undefined}>{t('nav.home')}</Link>
         <Link href="/blog/" aria-current={current('/blog/') ? 'page' : undefined}>{t('nav.blog')}</Link>
         <Link href="/workshop/" aria-current={current('/workshop/') ? 'page' : undefined}>{t('nav.workshop')}</Link>
-        <Link href="/life/" aria-current={current('/life/') ? 'page' : undefined}>{t('nav.life')}</Link>
-        <Link href="/archives/" aria-current={current('/archives/') ? 'page' : undefined}>{t('nav.archives')}</Link>
         <Link href="/guestbook/" aria-current={current('/guestbook/') ? 'page' : undefined}>{t('nav.guestbook')}</Link>
       </nav>
     </>
